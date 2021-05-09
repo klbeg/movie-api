@@ -1,4 +1,5 @@
-const express = require('express');
+const express = require('express'),
+  morgan = require('morgan');
 const app = express();
 
 let myFavMovies = [
@@ -14,7 +15,14 @@ let myFavMovies = [
     title: 'The Hateful Eight',
     director: 'Quentin Tarantino',
   },
+  {
+    title: 'Django',
+    director: 'Quentin Tarantino',
+  },
 ];
+//  middleware
+app.use(morgan('common'));
+app.use('/', express.static('public'));
 
 // GET requests
 app.get('/movies', (req, res) => {
