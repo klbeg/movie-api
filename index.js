@@ -19,6 +19,30 @@ let myFavMovies = [
     title: 'Django',
     director: 'Quentin Tarantino',
   },
+  {
+    title: 'Snatch',
+    director: 'Guy Ritchie',
+  },
+  {
+    title: 'American History X',
+    director: 'Tony Kaye',
+  },
+  {
+    title: 'Zoolander',
+    director: 'Ben Stiller',
+  },
+  {
+    title: 'Anchorman',
+    director: 'Adam McKay',
+  },
+  {
+    title: 'Boondock Saints',
+    director: 'Troy Duffy',
+  },
+  {
+    title: 'Step Brothers',
+    director: 'Adam McKay',
+  },
 ];
 //  middleware
 //  throws all requests to terminal
