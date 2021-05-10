@@ -21,19 +21,25 @@ let myFavMovies = [
   },
 ];
 //  middleware
+//  throws all requests to terminal
 app.use(morgan('common'));
+//  searches public folder if request
+//  does not reflect an existing page
 app.use('/', express.static('public'));
+//  throws errors to terminal...  not working.
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
 });
 
 // GET requests
+//  brings up my top 10 movies as a json file
 app.get('/movies', (req, res) => {
   res.json(myFavMovies);
 });
 
 //  listen for requests
+//  setting up server on port 8080
 app.listen(8080, () => {
   console.log('movies-api is currently listening to port 8080');
 });
