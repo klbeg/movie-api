@@ -61,7 +61,13 @@ app.use((err, req, res, next) => {
 app.get('/movies', (req, res) => {
   res.json(myFavMovies);
 });
-
+app.get('/movies/:name', (req, res) => {
+  res
+    .status(201)
+    .send(
+      "This will return the searched movie's description, genre, director, wether it's featured and an image URL"
+    );
+});
 //  listen for requests
 //  setting up server on port 8080
 app.listen(8080, () => {
