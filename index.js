@@ -61,13 +61,52 @@ app.use((err, req, res, next) => {
 app.get('/movies', (req, res) => {
   res.json(myFavMovies);
 });
-app.get('/movies/:name', (req, res) => {
+app.get('/movies/info/:name', (req, res) => {
   res
     .status(201)
     .send(
       "This will return the searched movie's description, genre, director, wether it's featured and an image URL"
     );
 });
+app.get('/movies/genres/:name', (req, res) => {
+  res.status(201).send('This will return a description of the searched genre');
+});
+app.get('/movies/directors/:name', (req, res) => {
+  res
+    .status(201)
+    .send(
+      "This will return the searched director's biography as well as birth and death years"
+    );
+});
+//  This will use PUT method
+app.get('/users/register', (req, res) => {
+  res.status(201).send('This is where new users will be able to register');
+});
+app.get('/users/update/:new-name', (req, res) => {
+  res
+    .status(201)
+    .send('This is where users will be able to update their usernames');
+});
+app.get('/movies/add', (req, res) => {
+  res
+    .status(201)
+    .send(
+      'This is where users will be able to add new movies to their favorites list'
+    );
+});
+app.get('/movies/remove/:title', (req, res) => {
+  res
+    .status(201)
+    .send(
+      'This is where users will be able to remove movies from their favorites'
+    );
+});
+app.get('/users/deregister/:username', (req, res) => {
+  res
+    .status(201)
+    .send('This is where users will be able to deregister their accounts');
+});
+
 //  listen for requests
 //  setting up server on port 8080
 app.listen(8080, () => {
