@@ -1,9 +1,135 @@
-<title>My Movies API</title>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Documentation</title>
+    <style>
+      table {
+        border: 3px solid black;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <title>My Movies API</title>
 
-<h1>Objective:</h1>
-<p>
-  Build the server side component of a 'movie' web application. It will provide
-  users with access to information about movies, directors and genres. Users
-  will be able to sign up, update their personal information and create a list
-  of their favorite movies.
-</p>
+    <h1>Objective:</h1>
+    <p>
+      Build the server side component of a 'movie' web application. It will
+      provide users with access to information about movies, directors and
+      genres. Users will be able to sign up, update their personal information
+      and create a list of their favorite movies.
+    </p>
+    <h3>Endpoints</h3>
+    <table>
+      <tr>
+        <th>Business Logic</th>
+        <th>URL</th>
+        <th>HTTP Method</th>
+        <th>Request Body Format</th>
+        <th>Response Body Format</th>
+      </tr>
+      <tr>
+        <td>Return a list of all movies</td>
+        <td>/movies/all</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>A JSON array containing all movie objects</td>
+      </tr>
+      <tr>
+        <td>Return info about a single movie</td>
+        <td>/movies/:name/info</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>
+          A JSON object containing a description of the movie, genre, director,
+          image URL and wether it's featured
+        </td>
+      </tr>
+      <tr>
+        <td>Return description of a genre</td>
+        <td>/movies/genres/:name</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>A text message containing a description of the genre</td>
+      </tr>
+      <tr>
+        <td>Return data on a director</td>
+        <td>/movies/directors/:name</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>
+          A text message containing a biography with birth and death years
+        </td>
+      </tr>
+      <tr>
+        <td>Register new user</td>
+        <td>/users/register</td>
+        <td>POST</td>
+        <td>
+          A JSON object with data about the user: <br />
+          { <br />
+          name: "James Comey", <br />
+          username: "BigMoney20" <br />
+          password: "password" <br />
+          }
+        </td>
+        <td>
+          A text message confirming a new account has been created for
+          (username)
+        </td>
+      </tr>
+      <tr>
+        <td>Allow users to update their username</td>
+        <td>/users/update/:new-name</td>
+        <td>PUT</td>
+        <td>None</td>
+        <td>
+          A text message indicating the username has changed to (new username)
+        </td>
+      </tr>
+      <tr>
+        <td>Allow users to add favorite movies to a list</td>
+        <td>/movies/add</td>
+        <td>POST</td>
+        <td>
+          A JSON object with data about the movie: <br />
+          { <br />
+          title: `Grandma's Boy`, <br />
+          director: 'Nicholaus Goosen' <br />
+          }
+        </td>
+        <td>
+          A text message confirming that (title) has been added to your favorite
+          movies
+        </td>
+      </tr>
+      <tr>
+        <td>Allow users to remove movies from favorites</td>
+        <td>/movies/remove/:title</td>
+        <td>DELETE</td>
+        <td>None</td>
+        <td>
+          A text message confirming (title) has been removed from favorite
+          movies
+        </td>
+      </tr>
+      <tr>
+        <td>Allow users to delete their account</td>
+        <td>/users/deregister/:username</td>
+        <td>DELETE</td>
+        <td>None</td>
+        <td>
+          A text message confirming the account (username) has been deleted
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
