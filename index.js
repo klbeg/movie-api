@@ -59,7 +59,7 @@ app.use((err, req, res, next) => {
 // GET requests
 //  brings up my top 10 movies as a json file
 app.get('/movies', (req, res) => {
-  res.json(myFavMovies);
+  res.json(FavoriteMovies);
 });
 app.get('/movies/info/:name', (req, res) => {
   res
