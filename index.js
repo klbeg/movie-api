@@ -85,19 +85,12 @@ app.get('/users/:Username', (req, res) => {
     });
 });
 
-//  update username
+//  update user info
 //  √ working
 app.put('/users/:Username', (req, res) => {
   Users.findOneAndUpdate(
     { Username: req.params.Username },
-    {
-      $set: {
-        Username: req.body.Username,
-        Password: req.body.Password,
-        Email: req.body.Email,
-        Birthday: req.body.Birthday,
-      },
-    },
+    req.body,
     { new: true },
     (err, updatedUser) => {
       if (err) {
