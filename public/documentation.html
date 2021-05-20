@@ -37,6 +37,77 @@
         <th>Response Body Format</th>
       </tr>
       <tr>
+        <td>Register new user</td>
+        <td>/users/register</td>
+        <td>POST</td>
+        <td>
+          A JSON object with data about the user: <br />
+          { <br />
+          "Name": "James Comey", <br />
+          "Username": "BigMoney20", <br />
+          "Password": "password", <br />
+          "Email": "email@domain.com", <br />
+          "Birthdate": "1999-01-01" <br />
+          }
+        </td>
+        <td>
+          A text message confirming a new account has been created for
+          (username)
+        </td>
+      </tr>
+      <tr>
+        <td>Allow users to update their user info</td>
+        <td>/users/:username</td>
+        <td>PUT</td>
+        <td>
+          { <br>
+            "Name": "fName lName", <br>
+            "Username": "newUserName", <br>
+            "Password": "newPassword", <br>
+            "Email": "email@domain.com", <br>
+            "Birthdate": "1999-01-01", <br>
+          }
+        </td>
+        <td>
+          A text message indicating the user info has 
+          changed with new user info displayed as a json
+        </td>
+      </tr>
+      <tr>
+        <td>Allow users to add favorite movies to a list</td>
+        <td>/movies/add</td>
+        <td>POST</td>
+        <td>
+          A JSON object with data about the movie: <br />
+          { <br />
+          title: `Grandma's Boy`, <br />
+          director: 'Nicholaus Goosen' <br />
+          }
+        </td>
+        <td>
+          A text message confirming that (title) has been added to your favorite
+          movies
+        </td>
+      </tr>
+      <tr>
+        <td>Allow users to remove movies from favorites</td>
+        <td>/movies/remove/:title</td>
+        <td>DELETE</td>
+        <td>None</td>
+        <td>
+          A text message confirming (title) has been removed from favorite
+          movies
+        </td>
+      </tr>
+      <tr>
+        <td>Allow users to delete their account</td>
+        <td>/users/:username</td>
+        <td>DELETE</td>
+        <td>None</td>
+        <td>
+          A text message confirming the account (username) has been deleted
+        </td>
+      <tr>
         <td>Return a list of all movies</td>
         <td>/movies</td>
         <td>GET</td>
@@ -69,66 +140,6 @@
           A text message containing a biography with birth and death years
         </td>
       </tr>
-      <tr>
-        <td>Register new user</td>
-        <td>/users/register</td>
-        <td>POST</td>
-        <td>
-          A JSON object with data about the user: <br />
-          { <br />
-          name: "James Comey", <br />
-          username: "BigMoney20" <br />
-          password: "password" <br />
-          }
-        </td>
-        <td>
-          A text message confirming a new account has been created for
-          (username)
-        </td>
-      </tr>
-      <tr>
-        <td>Allow users to update their username</td>
-        <td>/users/update/:new-name</td>
-        <td>PUT</td>
-        <td>None</td>
-        <td>
-          A text message indicating the username has changed to (new username)
-        </td>
-      </tr>
-      <tr>
-        <td>Allow users to add favorite movies to a list</td>
-        <td>/movies/add</td>
-        <td>POST</td>
-        <td>
-          A JSON object with data about the movie: <br />
-          { <br />
-          title: `Grandma's Boy`, <br />
-          director: 'Nicholaus Goosen' <br />
-          }
-        </td>
-        <td>
-          A text message confirming that (title) has been added to your favorite
-          movies
-        </td>
-      </tr>
-      <tr>
-        <td>Allow users to remove movies from favorites</td>
-        <td>/movies/remove/:title</td>
-        <td>DELETE</td>
-        <td>None</td>
-        <td>
-          A text message confirming (title) has been removed from favorite
-          movies
-        </td>
-      </tr>
-      <tr>
-        <td>Allow users to delete their account</td>
-        <td>/users/deregister/:username</td>
-        <td>DELETE</td>
-        <td>None</td>
-        <td>
-          A text message confirming the account (username) has been deleted
-        </td>
       </tr>
     </table>
   </body>
