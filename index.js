@@ -101,24 +101,62 @@ app.get('/users/:Username', (req, res) => {
     });
 });
 
-app.get('/users/deregister/:username', (req, res) => {
-  res
-    .status(201)
-    .send('This is where users will be able to deregister their accounts');
+app.put('/users/:Username', (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.Username },
+    {
+      $set: {
+        Username: req.body.Username,
+        Password: req.body.Password,
+        Email: req.body.email,
+        Birthday: req.body.Birthday,
+      },
+    },
+    { new: true },
+    (err, updatedUser) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      } else {
+        res.json(updatedUser);
+      }
+    }
+  );
 });
 
-app.get('/users/update/:new-name', (req, res) => {
-  res
-    .status(201)
-    .send('This is where users will be able to update their usernames');
+//  Delete a user by username
+app.delete('/users/:Username', (req, res) => {
+  Users.findOneAndRemove({ Username: req.params.Username })
+    .then((user) => {
+      if (!user) {
+        res.status(400).send(req.params.Username + ' was not found');
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
-app.get('/movies/add', (req, res) => {
-  res
-    .status(201)
-    .send(
-      'This is where users will be able to add new movies to their favorites list'
-    );
+
+//  Add a movie to user's list of favorites
+app.post('/users/:Username/Movies/:MovieID', (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.MovieID },
+    {
+      $push: { FavoriteMovies: req.params.MovieID },
+    },
+    { new: true },
+    (err, updatedUser) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      } else {
+        res.json(updatedUser);
+      }
+    }
+  );
 });
+
 app.get('/movies/remove/:title', (req, res) => {
   res
     .status(201)
