@@ -1,9 +1,11 @@
 const express = require('express'),
   morgan = require('morgan'),
   mongoose = require('mongoose'),
-  Models = require('./models.js');
+  Models = require('./models.js'),
+  bodyParser = require('body-parser');
 
 const app = express();
+app.use(bodyParser.json());
 const Movies = Models.Movie;
 const Users = Models.User;
 
@@ -47,9 +49,33 @@ app.get('/movies/directors/:name', (req, res) => {
     );
 });
 //  This will use PUT method
-app.get('/users/register', (req, res) => {
-  res.status(201).send('This is where new users will be able to register');
+app.post('/users', (req, res) => {
+  Users.findOne({ Username: req.body.Username })
+    .then((user) => {
+      if (user) {
+        return res.status(400).send(req.body.Username + ' already exists');
+      } else {
+        Users.create({
+          Username: req.body.Username,
+          Password: req.body.Password,
+          Email: req.body.Email,
+          Birthday: req.body.Birthday,
+        })
+          .then((user) => {
+            res.status(201).json(user);
+          })
+          .catch((error) => {
+            console.error(error);
+            res.status(500).send('Error: ' + error);
+          });
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.sendStatus(500).send('Error: ' + error);
+    });
 });
+
 app.get('/users/update/:new-name', (req, res) => {
   res
     .status(201)
