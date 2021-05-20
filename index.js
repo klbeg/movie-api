@@ -48,7 +48,8 @@ app.get('/movies/directors/:name', (req, res) => {
       "This will return the searched director's biography as well as birth and death years"
     );
 });
-//  This will use PUT method
+//  Used to create new users after checking that
+//  said user doesn't already exist
 app.post('/users', (req, res) => {
   Users.findOne({ Username: req.body.Username })
     .then((user) => {
@@ -76,6 +77,7 @@ app.post('/users', (req, res) => {
     });
 });
 
+//  Get all users
 app.get('/users', (req, res) => {
   Users.find()
     .then((users) => {
@@ -85,6 +87,24 @@ app.get('/users', (req, res) => {
       console.error(err);
       res.status(500).send('Error: ' + err);
     });
+});
+
+//  Get a user by username
+app.get('/users/:Username', (req, res) => {
+  Users.findOne({ Username: req.params.Username })
+    .then((user) => {
+      res.json(user);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
+});
+
+app.get('/users/deregister/:username', (req, res) => {
+  res
+    .status(201)
+    .send('This is where users will be able to deregister their accounts');
 });
 
 app.get('/users/update/:new-name', (req, res) => {
@@ -105,11 +125,6 @@ app.get('/movies/remove/:title', (req, res) => {
     .send(
       'This is where users will be able to remove movies from their favorites'
     );
-});
-app.get('/users/deregister/:username', (req, res) => {
-  res
-    .status(201)
-    .send('This is where users will be able to deregister their accounts');
 });
 
 //  listen for requests
