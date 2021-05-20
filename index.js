@@ -2,7 +2,7 @@ const express = require('express'),
   morgan = require('morgan');
 const app = express();
 
-let myFavMovies = [
+let FavoriteMovies = [
   {
     title: `Grandma's Boy`,
     director: 'Nicholaus Goosen',
