@@ -26,7 +26,8 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 });
 
-// GET requests
+//  Endpoints
+
 //  Used to create new users after checking that
 //  said user doesn't already exist
 //  √ working
@@ -127,6 +128,7 @@ app.delete('/users/:Username', (req, res) => {
 });
 
 //  gets a list of all movies
+//  √ working
 app.get('/movies', (req, res) => {
   Movies.find()
     .then((movies) => {
@@ -135,6 +137,19 @@ app.get('/movies', (req, res) => {
     .catch((err) => {
       console.error(err);
       res.status(500).send('Error: ' + errr);
+    });
+});
+
+//  get movie by title
+//  √ working
+app.get('/movies/:Title', (req, res) => {
+  Movies.findOne({ Title: req.params.Title })
+    .then((movie) => {
+      res.json(movie);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
     });
 });
 
@@ -156,7 +171,7 @@ app.post('/users/:Username/Movies/:MovieID', (req, res) => {
     }
   );
 });
-
+//  removes movie from user's favorites list
 app.get('/movies/remove/:title', (req, res) => {
   res
     .status(201)
