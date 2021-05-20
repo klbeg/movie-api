@@ -1,49 +1,17 @@
 const express = require('express'),
-  morgan = require('morgan');
-const app = express();
+  morgan = require('morgan'),
+  mongoose = require('mongoose'),
+  Models = require('./models.js');
 
-let FavoriteMovies = [
-  {
-    title: `Grandma's Boy`,
-    director: 'Nicholaus Goosen',
-  },
-  {
-    title: 'Fight Club',
-    director: 'David Fincher',
-  },
-  {
-    title: 'The Hateful Eight',
-    director: 'Quentin Tarantino',
-  },
-  {
-    title: 'Django',
-    director: 'Quentin Tarantino',
-  },
-  {
-    title: 'Snatch',
-    director: 'Guy Ritchie',
-  },
-  {
-    title: 'American History X',
-    director: 'Tony Kaye',
-  },
-  {
-    title: 'Zoolander',
-    director: 'Ben Stiller',
-  },
-  {
-    title: 'Anchorman',
-    director: 'Adam McKay',
-  },
-  {
-    title: 'Boondock Saints',
-    director: 'Troy Duffy',
-  },
-  {
-    title: 'Step Brothers',
-    director: 'Adam McKay',
-  },
-];
+const app = express();
+const Movies = Models.Movie;
+const Users = Models.User;
+
+mongoose.connect('mongodb://localhost:27017/myFlixDb', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
 //  middleware
 //  throws all requests to terminal
 app.use(morgan('common'));
@@ -112,3 +80,47 @@ app.get('/users/deregister/:username', (req, res) => {
 app.listen(8080, () => {
   console.log('movies-api is currently listening to port 8080');
 });
+/*
+  let FavoriteMovies = [
+    {
+      title: `Grandma's Boy`,
+      director: 'Nicholaus Goosen',
+    },
+    {
+      title: 'Fight Club',
+      director: 'David Fincher',
+    },
+    {
+      title: 'The Hateful Eight',
+      director: 'Quentin Tarantino',
+    },
+    {
+      title: 'Django',
+      director: 'Quentin Tarantino',
+    },
+    {
+      title: 'Snatch',
+      director: 'Guy Ritchie',
+    },
+    {
+      title: 'American History X',
+      director: 'Tony Kaye',
+    },
+    {
+      title: 'Zoolander',
+      director: 'Ben Stiller',
+    },
+    {
+      title: 'Anchorman',
+      director: 'Adam McKay',
+    },
+    {
+      title: 'Boondock Saints',
+      director: 'Troy Duffy',
+    },
+    {
+      title: 'Step Brothers',
+      director: 'Adam McKay',
+    },
+  ];
+  */
