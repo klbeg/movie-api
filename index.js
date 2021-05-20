@@ -126,27 +126,16 @@ app.delete('/users/:Username', (req, res) => {
     });
 });
 
-//  brings up my top 10 movies as a json file
-//  needs update to use mongoose models
+//  gets a list of all movies
 app.get('/movies', (req, res) => {
-  res.json(FavoriteMovies);
-});
-app.get('/movies/info/:name', (req, res) => {
-  res
-    .status(201)
-    .send(
-      "This will return the searched movie's description, genre, director, wether it's featured and an image URL"
-    );
-});
-app.get('/movies/genres/:name', (req, res) => {
-  res.status(201).send('This will return a description of the searched genre');
-});
-app.get('/movies/directors/:name', (req, res) => {
-  res
-    .status(201)
-    .send(
-      "This will return the searched director's biography as well as birth and death years"
-    );
+  Movies.find()
+    .then((movies) => {
+      res.status(201).json(movies);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + errr);
+    });
 });
 
 //  Add a movie to user's list of favorites
