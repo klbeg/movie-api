@@ -27,29 +27,9 @@ app.use((err, req, res, next) => {
 });
 
 // GET requests
-//  brings up my top 10 movies as a json file
-app.get('/movies', (req, res) => {
-  res.json(FavoriteMovies);
-});
-app.get('/movies/info/:name', (req, res) => {
-  res
-    .status(201)
-    .send(
-      "This will return the searched movie's description, genre, director, wether it's featured and an image URL"
-    );
-});
-app.get('/movies/genres/:name', (req, res) => {
-  res.status(201).send('This will return a description of the searched genre');
-});
-app.get('/movies/directors/:name', (req, res) => {
-  res
-    .status(201)
-    .send(
-      "This will return the searched director's biography as well as birth and death years"
-    );
-});
 //  Used to create new users after checking that
 //  said user doesn't already exist
+//  √ working
 app.post('/users', (req, res) => {
   Users.findOne({ Username: req.body.Username })
     .then((user) => {
@@ -78,6 +58,7 @@ app.post('/users', (req, res) => {
 });
 
 //  Get all users
+//  √ working
 app.get('/users', (req, res) => {
   Users.find()
     .then((users) => {
@@ -90,6 +71,7 @@ app.get('/users', (req, res) => {
 });
 
 //  Get a user by username
+//  √ working
 app.get('/users/:Username', (req, res) => {
   Users.findOne({ Username: req.params.Username })
     .then((user) => {
@@ -101,6 +83,8 @@ app.get('/users/:Username', (req, res) => {
     });
 });
 
+//  update username
+//  √ working
 app.put('/users/:Username', (req, res) => {
   Users.findOneAndUpdate(
     { Username: req.params.Username },
@@ -108,7 +92,7 @@ app.put('/users/:Username', (req, res) => {
       $set: {
         Username: req.body.Username,
         Password: req.body.Password,
-        Email: req.body.email,
+        Email: req.body.Email,
         Birthday: req.body.Birthday,
       },
     },
@@ -125,6 +109,7 @@ app.put('/users/:Username', (req, res) => {
 });
 
 //  Delete a user by username
+//  √ working
 app.delete('/users/:Username', (req, res) => {
   Users.findOneAndRemove({ Username: req.params.Username })
     .then((user) => {
@@ -138,6 +123,29 @@ app.delete('/users/:Username', (req, res) => {
       console.error(err);
       res.status(500).send('Error: ' + err);
     });
+});
+
+//  brings up my top 10 movies as a json file
+//  needs update to use mongoose models
+app.get('/movies', (req, res) => {
+  res.json(FavoriteMovies);
+});
+app.get('/movies/info/:name', (req, res) => {
+  res
+    .status(201)
+    .send(
+      "This will return the searched movie's description, genre, director, wether it's featured and an image URL"
+    );
+});
+app.get('/movies/genres/:name', (req, res) => {
+  res.status(201).send('This will return a description of the searched genre');
+});
+app.get('/movies/directors/:name', (req, res) => {
+  res
+    .status(201)
+    .send(
+      "This will return the searched director's biography as well as birth and death years"
+    );
 });
 
 //  Add a movie to user's list of favorites
@@ -172,47 +180,46 @@ app.get('/movies/remove/:title', (req, res) => {
 app.listen(8080, () => {
   console.log('movies-api is currently listening to port 8080');
 });
-/*
-  let FavoriteMovies = [
-    {
-      title: `Grandma's Boy`,
-      director: 'Nicholaus Goosen',
-    },
-    {
-      title: 'Fight Club',
-      director: 'David Fincher',
-    },
-    {
-      title: 'The Hateful Eight',
-      director: 'Quentin Tarantino',
-    },
-    {
-      title: 'Django',
-      director: 'Quentin Tarantino',
-    },
-    {
-      title: 'Snatch',
-      director: 'Guy Ritchie',
-    },
-    {
-      title: 'American History X',
-      director: 'Tony Kaye',
-    },
-    {
-      title: 'Zoolander',
-      director: 'Ben Stiller',
-    },
-    {
-      title: 'Anchorman',
-      director: 'Adam McKay',
-    },
-    {
-      title: 'Boondock Saints',
-      director: 'Troy Duffy',
-    },
-    {
-      title: 'Step Brothers',
-      director: 'Adam McKay',
-    },
-  ];
-  */
+
+let FavoriteMovies = [
+  {
+    title: `Grandma's Boy`,
+    director: 'Nicholaus Goosen',
+  },
+  {
+    title: 'Fight Club',
+    director: 'David Fincher',
+  },
+  {
+    title: 'The Hateful Eight',
+    director: 'Quentin Tarantino',
+  },
+  {
+    title: 'Django',
+    director: 'Quentin Tarantino',
+  },
+  {
+    title: 'Snatch',
+    director: 'Guy Ritchie',
+  },
+  {
+    title: 'American History X',
+    director: 'Tony Kaye',
+  },
+  {
+    title: 'Zoolander',
+    director: 'Ben Stiller',
+  },
+  {
+    title: 'Anchorman',
+    director: 'Adam McKay',
+  },
+  {
+    title: 'Boondock Saints',
+    director: 'Troy Duffy',
+  },
+  {
+    title: 'Step Brothers',
+    director: 'Adam McKay',
+  },
+];
