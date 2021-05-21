@@ -120,6 +120,44 @@ app.delete('/users/:Username', (req, res) => {
     });
 });
 
+//  Add a movie to user's list of favorites
+//  √ working
+app.put('/users/:Username/movies/:MovieID', (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.Username },
+    {
+      $push: { FavoriteMovies: req.params.MovieID },
+    },
+    { new: true },
+    (err, updatedUser) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      } else {
+        res.json(updatedUser);
+      }
+    }
+  );
+});
+
+//  removes movie from user's favorites list
+//  √ working
+app.delete('/users/:Username/movies/:MovieID', (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.Username },
+    { $pull: { FavoriteMovies: req.params.MovieID } },
+    { new: true },
+    (err, removedMovie) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      } else {
+        res.json(removedMovie);
+      }
+    }
+  );
+});
+
 //  gets a list of all movies
 //  √ working
 app.get('/movies', (req, res) => {
@@ -144,33 +182,6 @@ app.get('/movies/:Title', (req, res) => {
       console.error(err);
       res.status(500).send('Error: ' + err);
     });
-});
-
-//  Add a movie to user's list of favorites
-app.post('/users/:Username/Movies/:MovieID', (req, res) => {
-  Users.findOneAndUpdate(
-    { Username: req.params.MovieID },
-    {
-      $push: { FavoriteMovies: req.params.MovieID },
-    },
-    { new: true },
-    (err, updatedUser) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send('Error: ' + err);
-      } else {
-        res.json(updatedUser);
-      }
-    }
-  );
-});
-//  removes movie from user's favorites list
-app.get('/movies/remove/:title', (req, res) => {
-  res
-    .status(201)
-    .send(
-      'This is where users will be able to remove movies from their favorites'
-    );
 });
 
 //  listen for requests
