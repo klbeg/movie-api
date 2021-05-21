@@ -184,6 +184,38 @@ app.get('/movies/:Title', (req, res) => {
     });
 });
 
+//  get genre by name
+//  √ working...  would like to only return genre info,
+//  not whole movie record
+app.get('/genres/:Name', (req, res) => {
+  Movies.findOne({ 'Genre.Name': req.params.Name })
+    .then((genre) => {
+      res.json(genre);
+    })
+    .catch((err) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      }
+    });
+});
+
+//  get director by name
+//  √ working...  would like to return only director info,
+//  not whole movie record
+app.get('/directors/:Name', (req, res) => {
+  Movies.findOne({ 'Director.Name': req.params.Name })
+    .then((director) => {
+      res.json(director);
+    })
+    .catch((err) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      }
+    });
+});
+
 //  listen for requests
 //  setting up server on port 8080
 app.listen(8080, () => {
