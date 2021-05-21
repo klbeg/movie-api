@@ -56,7 +56,7 @@
         </td>
       </tr>
       <tr>
-        <td>Allow users to update their user info</td>
+        <td>Update user info</td>
         <td>/users/:username</td>
         <td>PUT</td>
         <td>
@@ -74,33 +74,27 @@
         </td>
       </tr>
       <tr>
-        <td>Allow users to add favorite movies to a list</td>
-        <td>/movies</td>
-        <td>POST</td>
+        <td>Add movie to user's favorites</td>
+        <td>/movies/:MovieID</td>
+        <td>PUT</td>
+        <td>None</td>
         <td>
-          A JSON object with data about the movie: <br />
-          { <br />
-          title: `Grandma's Boy`, <br />
-          director: 'Nicholaus Goosen' <br />
-          }
-        </td>
-        <td>
-          A text message confirming that (title) has been added to your favorite
+          A text message confirming that (MovieID) has been added to your favorite
           movies
         </td>
       </tr>
       <tr>
-        <td>Allow users to remove movies from favorites</td>
-        <td>/movies/remove/:title</td>
+        <td>Remove movie from user's favorites</td>
+        <td>/movies/:MovieID</td>
         <td>DELETE</td>
         <td>None</td>
         <td>
-          A text message confirming (title) has been removed from favorite
+          A text message confirming (MovieID) has been removed from favorite
           movies
         </td>
       </tr>
       <tr>
-        <td>Allow users to delete their account</td>
+        <td>Delete user account</td>
         <td>/users/:username</td>
         <td>DELETE</td>
         <td>None</td>
@@ -115,7 +109,7 @@
         <td>A JSON array containing all movie objects</td>
       </tr>
       <tr>
-        <td>Return info about a single movie</td>
+        <td>Search movies by title</td>
         <td>/movies/:Title</td>
         <td>GET</td>
         <td>None</td>
@@ -125,15 +119,15 @@
         </td>
       </tr>
       <tr>
-        <td>Return description of a genre</td>
-        <td>/movies/genres/:name</td>
+        <td>Search genres by name</td>
+        <td>/genres/:Name</td>
         <td>GET</td>
         <td>None</td>
         <td>A text message containing a description of the genre</td>
       </tr>
       <tr>
-        <td>Return data on a director</td>
-        <td>/movies/directors/:name</td>
+        <td>Search directors by name</td>
+        <td>/directors/:Name</td>
         <td>GET</td>
         <td>None</td>
         <td>
