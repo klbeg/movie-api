@@ -145,7 +145,16 @@
         <td>/genres/:Name</td>
         <td>GET</td>
         <td>None</td>
-        <td>A text message containing a description of the genre</td>
+        <td>
+          JSON containing matched genre info. ex: <br>
+          { <br>
+            "Name": "Thriller", <br>
+            "Description": "Thriller film, also known as suspense film or <br> 
+            suspense thriller, is a broad film genre that involves excitement and suspense in <br> 
+            the audience.  Tension is created by delaying what the audience sees as inevitable, <br> 
+            and is built through situations that are menacing or where escape seems impossible." <br>
+          } 
+        </td>
       </tr>
       <tr>
         <td>Search directors by name</td>
@@ -153,7 +162,14 @@
         <td>GET</td>
         <td>None</td>
         <td>
-          A text message containing a biography with birth and death years
+          JSON containing matched director info. ex: <br>
+          { <br>
+            "Name": "Adam McKay", <br>
+            "Bio": "Adam McKay was born April, 17 1968.  He is an American film and television <br> 
+            director, producer, screenwriter, and comedian.  McKay got  his start as the head <br> 
+            writer for Saturday Night Live.", <br>
+            "Birth": "1968" <br>
+          }
         </td>
       </tr>
       </tr>
