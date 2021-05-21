@@ -59,40 +59,6 @@ app.post('/users', (req, res) => {
     });
 });
 
-/*
-//  Removed because users shouldn't have access 
-//  to this function
-
-//  Get all users
-//  √ working
-app.get('/users', (req, res) => {
-  Users.find()
-    .then((users) => {
-      res.status(201).json(users);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
-});
-
-//  Removed because users shouldn't have access 
-//  to this function
-
-//  Get a user by username
-//  √ working
-app.get('/users/:Username', (req, res) => {
-  Users.findOne({ Username: req.params.Username })
-  .then((user) => {
-    res.json(user);
-  })
-  .catch((err) => {
-    console.error(err);
-    res.status(500).send('Error: ' + err);
-  });
-});
-*/
-
 //  update user info
 //  √ working
 app.put('/users/:Username', (req, res) => {
@@ -136,13 +102,16 @@ app.put('/users/:Username/movies/:MovieID', (req, res) => {
     {
       $push: { FavoriteMovies: req.params.MovieID },
     },
-    { new: true },
-    (err, updatedUser) => {
+    (err) => {
       if (err) {
         console.error(err);
         res.status(500).send('Error: ' + err);
       } else {
-        res.json(updatedUser);
+        res
+          .status(200)
+          .send(
+            'MovieID ' + req.params.MovieID + ' has been added to favorites.'
+          );
       }
     }
   );
@@ -154,13 +123,18 @@ app.delete('/users/:Username/movies/:MovieID', (req, res) => {
   Users.findOneAndUpdate(
     { Username: req.params.Username },
     { $pull: { FavoriteMovies: req.params.MovieID } },
-    { new: true },
-    (err, removedMovie) => {
+    (err) => {
       if (err) {
         console.error(err);
         res.status(500).send('Error: ' + err);
       } else {
-        res.json(removedMovie);
+        res
+          .status(200)
+          .send(
+            'MovieID ' +
+              req.params.MovieID +
+              ' has been removed from favorites.'
+          );
       }
     }
   );
@@ -229,3 +203,37 @@ app.get('/directors/:Name', (req, res) => {
 app.listen(8080, () => {
   console.log('movies-api is currently listening to port 8080');
 });
+
+/*
+//  Removed because users shouldn't have access 
+//  to this function
+
+//  Get all users
+//  √ working
+app.get('/users', (req, res) => {
+  Users.find()
+    .then((users) => {
+      res.status(201).json(users);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
+});
+
+//  Removed because users shouldn't have access 
+//  to this function
+
+//  Get a user by username
+//  √ working
+app.get('/users/:Username', (req, res) => {
+  Users.findOne({ Username: req.params.Username })
+  .then((user) => {
+    res.json(user);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error: ' + err);
+  });
+});
+*/
