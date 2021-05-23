@@ -2,9 +2,9 @@ const express = require('express'),
   morgan = require('morgan'),
   mongoose = require('mongoose'),
   Models = require('./models.js'),
-  bodyParser = require('body-parser'),
-  passport = require('passport');
+  bodyParser = require('body-parser');
 
+const passport = require('passport');
 require('./passport');
 
 const app = express();
