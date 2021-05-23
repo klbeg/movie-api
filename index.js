@@ -2,12 +2,17 @@ const express = require('express'),
   morgan = require('morgan'),
   mongoose = require('mongoose'),
   Models = require('./models.js'),
-  bodyParser = require('body-parser');
+  bodyParser = require('body-parser'),
+  passport = require('passport');
+
+require('./passport');
 
 const app = express();
 app.use(bodyParser.json());
 const Movies = Models.Movie;
 const Users = Models.User;
+
+let auth = require('./auth')(app);
 
 mongoose.connect('mongodb://localhost:27017/myFlixDb', {
   useNewUrlParser: true,
