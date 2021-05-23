@@ -147,16 +147,20 @@ app.delete('/users/:Username/movies/:MovieID', (req, res) => {
 
 //  gets a list of all movies
 //  √ working
-app.get('/movies', (req, res) => {
-  Movies.find()
-    .then((movies) => {
-      res.status(201).json(movies);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + errr);
-    });
-});
+app.get(
+  '/movies',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Movies.find()
+      .then((movies) => {
+        res.status(201).json(movies);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + errr);
+      });
+  }
+);
 
 //  get movie by title
 //  √ working
