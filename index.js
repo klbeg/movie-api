@@ -211,9 +211,9 @@ app.get('/directors/:Name', (req, res) => {
 app.listen(8080, () => {
   console.log('movies-api is currently listening to port 8080');
 });
-
 /*
-//  Removed because users shouldn't have access 
+
+//  Removed because users shouldn't have access
 //  to this function
 
 //  Get all users
