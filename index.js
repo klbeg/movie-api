@@ -105,6 +105,13 @@ app.post(
 //  √ working, validation √
 app.put(
   '/users/:Username',
+  [
+    check('Username', 'Username is required').isLength(5),
+    check(
+      'Username',
+      'Username contains non alphanumeric characters - not allowed.'
+    ),
+  ],
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Users.findOneAndUpdate(
