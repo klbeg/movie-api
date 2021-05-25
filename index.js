@@ -6,7 +6,7 @@ const express = require('express'),
   passport = require('passport'),
   cors = require('cors');
 
-const { check, validationResults } = require('express-validator');
+const { check, validationResult } = require('express-validator');
 
 require('./passport');
 
@@ -67,9 +67,9 @@ app.post(
     check('Email', 'Email does not appear to be valid').isEmail(),
   ],
   (req, res) => {
-    let errors = validationResults(req);
+    let errors = validationResult(req);
 
-    if (!errors.isEmptyu()) {
+    if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
     let hashedPassword = Users.hashPassword(req.body.Password);
