@@ -10,6 +10,9 @@ const { check, validationResult } = require('express-validator');
 
 require('./passport');
 
+// fixes depreciation issue with mongoose & mongodb
+mongoose.set('useFindAndModify', false);
+
 const app = express();
 app.use(bodyParser.json());
 let auth = require('./auth')(app);
@@ -111,6 +114,7 @@ app.put(
       'Username',
       'Username contains non alphanumeric characters - not allowed.'
     ),
+    check('Email', 'Email does not appear to be valid').isEmail(),
   ],
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
