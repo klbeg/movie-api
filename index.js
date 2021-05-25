@@ -3,12 +3,15 @@ const express = require('express'),
   mongoose = require('mongoose'),
   Models = require('./models.js'),
   bodyParser = require('body-parser'),
-  passport = require('passport');
+  passport = require('passport'),
+  cors = require('cors');
+
 require('./passport');
 
 const app = express();
 app.use(bodyParser.json());
 let auth = require('./auth')(app);
+app.use(cors());
 
 const Movies = Models.Movie;
 const Users = Models.User;
