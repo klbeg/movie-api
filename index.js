@@ -54,6 +54,7 @@ app.use((err, req, res, next) => {
 //  said user doesn't already exist
 //  √ working
 app.post('/users', (req, res) => {
+  let hashedPassword = Users.hashPassword(req.body.Password);
   Users.findOne({ Username: req.body.Username })
     .then((user) => {
       if (user) {
@@ -62,7 +63,7 @@ app.post('/users', (req, res) => {
         Users.create({
           Name: req.body.Name,
           Username: req.body.Username,
-          Password: req.body.Password,
+          Password: hashedPassword,
           Email: req.body.Email,
           Birthdate: req.body.Birthdate,
         })
