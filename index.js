@@ -6,12 +6,9 @@ const express = require('express'),
   passport = require('passport'),
   cors = require('cors');
 
-const { check, validationResult } = require('express-validator');
+const { check, validationResults } = require('express-validator');
 
 require('./passport');
-
-// fixes depreciation issue with mongoose & mongodb
-mongoose.set('useFindAndModify', false);
 
 const app = express();
 app.use(bodyParser.json());
@@ -70,9 +67,9 @@ app.post(
     check('Email', 'Email does not appear to be valid').isEmail(),
   ],
   (req, res) => {
-    let errors = validationResult(req);
+    let errors = validationResults(req);
 
-    if (!errors.isEmpty()) {
+    if (!errors.isEmptyu()) {
       return res.status(422).json({ errors: errors.array() });
     }
     let hashedPassword = Users.hashPassword(req.body.Password);
@@ -108,14 +105,6 @@ app.post(
 //  √ working, validation √
 app.put(
   '/users/:Username',
-  [
-    check('Username', 'Username is required').isLength(5),
-    check(
-      'Username',
-      'Username contains non alphanumeric characters - not allowed.'
-    ),
-    check('Email', 'Email does not appear to be valid').isEmail(),
-  ],
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Users.findOneAndUpdate(
