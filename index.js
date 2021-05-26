@@ -282,5 +282,5 @@ app.get(
 //  setting up server on port 8080
 const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0', () => {
-  console.log('Listen on Port ' + port);
+  console.log('Listening on Port ' + port);
 });
