@@ -106,7 +106,7 @@ app.post(
 app.put(
   '/users/:Username',
   passport.authenticate('jwt', { session: false }),
-  [check('Email', 'Email does not appear to be valid').optional().isEmail()],
+  [check('Email', 'Email does not appear to be valid').isEmail().optional()],
   (req, res) => {
     let errors = validationResult(req);
 
