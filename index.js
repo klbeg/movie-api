@@ -1,3 +1,4 @@
+//  imported modules
 const express = require('express'),
   morgan = require('morgan'),
   mongoose = require('mongoose'),
@@ -7,13 +8,13 @@ const express = require('express'),
   cors = require('cors');
 
 const { check, validationResult } = require('express-validator');
-
 require('./passport');
 
 const app = express();
 app.use(bodyParser.json());
 let auth = require('./auth')(app);
 
+//
 let allowedOrigins = ['http://locahost:8080', 'http://testsite.com'];
 app.use(
   cors({
@@ -33,10 +34,14 @@ app.use(
 const Movies = Models.Movie;
 const Users = Models.User;
 
-mongoose.connect('mongodb://localhost:27017/myFlixDb', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+//  connects app to database  via mongoose
+mongoose.connect(
+  'mongodb+srv://dataAdmin:allTheThings@kb-cluster.brimy.mongodb.net/myFlixDb?retryWrites=true&w=majority',
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 
 //  middleware
 //  throws all requests to terminal
