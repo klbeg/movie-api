@@ -33,13 +33,22 @@ app.use(
 
 const Movies = Models.Movie;
 const Users = Models.User;
-
+/*
 //  connects app to database  via mongoose using
 //  environment variable for security
-mongoose.connect(process.env.CONNECTION_URI, {
+mongoose.connect('process.env.CONNECTION_URI', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+*/
+
+mongoose.connect(
+  'mongodb+srv://dataAdmin:allTheThings@kb-cluster.brimy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 
 //  middleware
 //  throws all requests to terminal
