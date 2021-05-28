@@ -37,7 +37,6 @@ app.use(
 
 const Movies = Models.Movie;
 const Users = Models.User;
-
 //  connects app to database  via mongoose using
 //  environment variable for security
 mongoose.connect(
@@ -55,7 +54,7 @@ app.use(morgan('common'));
 //  searches public folder if request
 //  does not reflect an existing page
 app.use('/', express.static('public'));
-//  throws errors to terminal...  not working.
+//  throws errors to terminal
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
