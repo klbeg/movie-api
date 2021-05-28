@@ -5,7 +5,10 @@ const express = require('express'),
   Models = require('./models.js'),
   bodyParser = require('body-parser'),
   passport = require('passport'),
+  dotenv = require('dotenv');
   cors = require('cors');
+
+dotenv.config();
 
 const { check, validationResult } = require('express-validator');
 require('./passport');
@@ -16,6 +19,7 @@ let auth = require('./auth')(app);
 
 //
 let allowedOrigins = ['http://locahost:8080', 'http://testsite.com'];
+
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -37,7 +41,8 @@ const Users = Models.User;
 //  connects app to database  via mongoose using
 //  environment variable for security
 mongoose.connect(
-  'mongodb+srv://dataAdmin:allTheThings@kb-cluster.brimy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+  process.env.CONNECTION_URI,
+  // 'mongodb+srv://dataAdmin:allTheThings@kb-cluster.brimy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -113,12 +118,13 @@ app.put(
   '/users/:Username',
   passport.authenticate('jwt', { session: false }),
   [check('Email', 'Email does not appear to be valid').isEmail().optional()],
-  (req, res) => {
+  (req, res, next) => {
     let errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
+    next()
   },
   (req, res) => {
     Users.findOneAndUpdate(
