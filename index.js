@@ -5,10 +5,7 @@ const express = require('express'),
   Models = require('./models.js'),
   bodyParser = require('body-parser'),
   passport = require('passport'),
-  cors = require('cors'),
-  dotenv = require('dotenv');
-
-dotenv.config();
+  cors = require('cors');
 
 const { check, validationResult } = require('express-validator');
 require('./passport');
@@ -37,15 +34,9 @@ app.use(
 
 const Movies = Models.Movie;
 const Users = Models.User;
-/*
+
 //  connects app to database  via mongoose using
 //  environment variable for security
-mongoose.connect('process.env.CONNECTION_URI', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-*/
-
 mongoose.connect(
   'process.env.CONNECTION_URI',
   //'mongodb+srv://dataAdmin:allTheThings@kb-cluster.brimy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
@@ -75,13 +66,21 @@ app.use((err, req, res, next) => {
 app.post(
   '/users',
   [
+    check(
+      'Name',
+      'Name field contains non alphanumeric characters - not allowed.'
+    )
+      .matches(/^[a-z0-9 ]+$/i)
+      .not()
+      .isEmpty(),
     check('Username', 'Username is required').isLength({ min: 5 }),
     check(
       'Username',
       'Username contains non alphanumeric characters - not allowed.'
     ).isAlphanumeric(),
-    check('Password', 'Password is required').not().isEmpty(),
-    check('Email', 'Email does not appear to be valid').optional().isEmail(),
+    check('Password', 'Password is required').isAlphanumeric().not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail(),
+    check('Birthdate', 'Birthdate is not a date.').isDate(),
   ],
   (req, res) => {
     let errors = validationResult(req);
@@ -123,7 +122,30 @@ app.post(
 app.put(
   '/users/:Username',
   passport.authenticate('jwt', { session: false }),
-  [check('Email', 'Email does not appear to be valid').isEmail().optional()],
+  [
+    check(
+      'Name',
+      'Name field contains non alphanumeric characters - not allowed.'
+    )
+      .optional()
+      .matches(/^[a-z0-9 ]+$/i)
+      .not()
+      .isEmpty(),
+    check('Username', 'Username is required').optional().isLength({ min: 5 }),
+    check(
+      'Username',
+      'Username contains non alphanumeric characters - not allowed.'
+    )
+      .optional()
+      .isAlphanumeric(),
+    check('Password', 'Password is required')
+      .optional()
+      .isAlphanumeric()
+      .not()
+      .isEmpty(),
+    check('Email', 'Email does not appear to be valid').optional().isEmail(),
+    check('Birthdate', 'Birthdate is not a date.').optional().isDate(),
+  ],
   (req, res, next) => {
     let errors = validationResult(req);
 
