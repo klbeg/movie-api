@@ -1,8 +1,7 @@
-const jwtSecret = 'your_jwt_secret';
-
 const jwt = require('jsonwebtoken'),
   passport = require('passport');
 
+const jwtSecret = 'your_jwt_secret';
 require('./passport');
 
 let generateJWTToken = (user) => {
