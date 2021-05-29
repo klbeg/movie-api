@@ -47,7 +47,8 @@ mongoose.connect('process.env.CONNECTION_URI', {
 */
 
 mongoose.connect(
-  'mongodb+srv://dataAdmin:allTheThings@kb-cluster.brimy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+  'process.env.CONNECTION_URI',
+  //'mongodb+srv://dataAdmin:allTheThings@kb-cluster.brimy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
