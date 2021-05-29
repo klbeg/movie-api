@@ -5,7 +5,10 @@ const express = require('express'),
   Models = require('./models.js'),
   bodyParser = require('body-parser'),
   passport = require('passport'),
-  cors = require('cors');
+  cors = require('cors'),
+  dotenv = require('dotenv');
+
+dotenv.config();
 
 const { check, validationResult } = require('express-validator');
 require('./passport');
@@ -16,6 +19,7 @@ let auth = require('./auth')(app);
 
 //
 let allowedOrigins = ['http://locahost:8080', 'http://testsite.com'];
+
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -33,15 +37,15 @@ app.use(
 
 const Movies = Models.Movie;
 const Users = Models.User;
-/*
+
 //  connects app to database  via mongoose using
 //  environment variable for security
 mongoose.connect('process.env.CONNECTION_URI', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-*/
 
+/*
 mongoose.connect(
   'mongodb+srv://dataAdmin:allTheThings@kb-cluster.brimy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   {
@@ -49,6 +53,7 @@ mongoose.connect(
     useUnifiedTopology: true,
   }
 );
+*/
 
 //  middleware
 //  throws all requests to terminal
