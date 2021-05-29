@@ -37,15 +37,15 @@ app.use(
 
 const Movies = Models.Movie;
 const Users = Models.User;
-
+/*
 //  connects app to database  via mongoose using
 //  environment variable for security
 mongoose.connect('process.env.CONNECTION_URI', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+*/
 
-/*
 mongoose.connect(
   'mongodb+srv://dataAdmin:allTheThings@kb-cluster.brimy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   {
@@ -53,7 +53,6 @@ mongoose.connect(
     useUnifiedTopology: true,
   }
 );
-*/
 
 //  middleware
 //  throws all requests to terminal
@@ -124,12 +123,13 @@ app.put(
   '/users/:Username',
   passport.authenticate('jwt', { session: false }),
   [check('Email', 'Email does not appear to be valid').isEmail().optional()],
-  (req, res) => {
+  (req, res, next) => {
     let errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
+    next();
   },
   (req, res) => {
     Users.findOneAndUpdate(
