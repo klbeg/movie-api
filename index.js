@@ -5,10 +5,7 @@ const express = require('express'),
   Models = require('./models.js'),
   bodyParser = require('body-parser'),
   passport = require('passport'),
-  dotenv = require('dotenv');
   cors = require('cors');
-
-dotenv.config();
 
 const { check, validationResult } = require('express-validator');
 require('./passport');
@@ -19,7 +16,6 @@ let auth = require('./auth')(app);
 
 //
 let allowedOrigins = ['http://locahost:8080', 'http://testsite.com'];
-
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -37,24 +33,30 @@ app.use(
 
 const Movies = Models.Movie;
 const Users = Models.User;
+
 //  connects app to database  via mongoose using
 //  environment variable for security
+mongoose.connect(process.env.CONNECTION_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+/*
+//  backup for testing purposes
 mongoose.connect(
-  process.env.CONNECTION_URI,
-  // 'mongodb+srv://dataAdmin:allTheThings@kb-cluster.brimy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+  'mongodb+srv://dataAdmin:allTheThings@kb-cluster.brimy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   }
 );
-
+*/
 //  middleware
 //  throws all requests to terminal
 app.use(morgan('common'));
 //  searches public folder if request
 //  does not reflect an existing page
 app.use('/', express.static('public'));
-//  throws errors to terminal
+//  throws errors to terminal...  not working.
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
@@ -117,13 +119,12 @@ app.put(
   '/users/:Username',
   passport.authenticate('jwt', { session: false }),
   [check('Email', 'Email does not appear to be valid').isEmail().optional()],
-  (req, res, next) => {
+  (req, res) => {
     let errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-    next()
   },
   (req, res) => {
     Users.findOneAndUpdate(
