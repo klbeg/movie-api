@@ -59,7 +59,7 @@ app.use((err, req, res, next) => {
 });
 
 //  Endpoints
-
+//  Default welcome page
 app.get('/', (req, res) => {
   res.status(200).send('Welcome to kb-movie-api!');
 });
