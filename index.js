@@ -60,6 +60,10 @@ app.use((err, req, res, next) => {
 
 //  Endpoints
 
+app.get('/', (req, res) => {
+  res.status(200).send('Welcome to kb-movie-api!');
+});
+
 //  Used to create new users after checking that
 //  said user doesn't already exist
 //  √ working
