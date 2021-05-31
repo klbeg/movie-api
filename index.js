@@ -14,9 +14,8 @@ const app = express();
 app.use(bodyParser.json());
 let auth = require('./auth')(app);
 
-//
+// controls which sites can make requests
 let allowedOrigins = ['http://locahost:8080', 'http://testsite.com'];
-
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -32,6 +31,7 @@ app.use(
   })
 );
 
+//  imports mongoose models to assigned variables
 const Movies = Models.Movie;
 const Users = Models.User;
 
@@ -59,6 +59,7 @@ app.use((err, req, res, next) => {
 });
 
 //  Endpoints
+
 //  Default welcome page
 app.get('/', (req, res) => {
   res.status(200).send('Welcome to kb-movie-api!');
@@ -68,6 +69,7 @@ app.get('/', (req, res) => {
 //  said user doesn't already exist
 //  √ working
 app.post(
+  //  validates each field to prevent cross scripting
   '/users',
   [
     check(
@@ -92,6 +94,7 @@ app.post(
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
+    //  Hashes newly created password and saves the hashed string as password
     let hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username })
       .then((user) => {
@@ -105,6 +108,7 @@ app.post(
             Email: req.body.Email,
             Birthdate: req.body.Birthdate,
           })
+            //  returns new user object
             .then((user) => {
               res.status(201).json(user);
             })
@@ -125,7 +129,9 @@ app.post(
 //  √ working, validation √
 app.put(
   '/users/:Username',
+  //  Verifies authentication token
   passport.authenticate('jwt', { session: false }),
+  // validates any inputed fields while allowing unwanted fields to be left blank
   [
     check(
       'Name',
@@ -160,6 +166,8 @@ app.put(
   },
   (req, res) => {
     Users.findOneAndUpdate(
+      //  updates only fields entered into body.
+      //  fields not present remain unchanged
       { Username: req.params.Username },
       req.body,
       { new: true },
@@ -176,6 +184,7 @@ app.put(
 );
 
 //  Delete a user by username
+//  If a username is found, returns confirmation
 //  √ working, validation  √
 app.delete(
   '/users/:Username',
@@ -196,7 +205,8 @@ app.delete(
   }
 );
 
-//  Add a movie to user's list of favorites
+//  Add a movie to user's list of favorites by movie's objectID
+//  upon success, returns confirmation
 //  √ working, validation √
 app.put(
   '/users/:Username/movies/:MovieID',
@@ -224,6 +234,7 @@ app.put(
 );
 
 //  removes movie from user's favorites list
+//  upon success, returns confirmation
 //  √ working, validation √
 app.delete(
   '/users/:Username/movies/:MovieID',
@@ -250,7 +261,7 @@ app.delete(
   }
 );
 
-//  gets a list of all movies
+//  gets a list of all movies to be returned as json
 //  √ working, validation √
 app.get(
   '/movies',
@@ -267,7 +278,7 @@ app.get(
   }
 );
 
-//  get movie by title
+//  gets a movie by title and returns a json
 //  √ working, validation √
 app.get(
   '/movies/:Title',
@@ -284,7 +295,7 @@ app.get(
   }
 );
 
-//  get genre by name
+//  get's a genre by name and returns a json
 //  √ working, validation √
 app.get(
   '/genres/:Name',
@@ -303,7 +314,7 @@ app.get(
   }
 );
 
-//  get director by name
+//  get's director by name and returns a json
 //  √ working, validation √
 app.get(
   '/directors/:Name',
@@ -323,7 +334,7 @@ app.get(
 );
 
 //  listen for requests
-//  setting up server on port 8080
+//  setting up server on port 8080 if PORT is not defined
 const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0', () => {
   console.log('Listening on Port ' + port);
