@@ -20,10 +20,10 @@ let movieSchema = mongoose.Schema({
 
 //  defines the model for users to match pre-existing data in mongodb
 let userSchema = mongoose.Schema({
-  Name: { type: String, required: false },
-  Username: { type: String, required: true },
-  Password: { type: String, required: true },
-  Email: { type: String, required: true },
+  Name: { type: String.toLowerCase(), required: false },
+  Username: { type: String.toLowerCase(), required: true },
+  Password: { type: String.toLowerCase(), required: true },
+  Email: { type: String.toLowerCase(), required: true },
   Birthdate: Date,
   FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }],
 });
