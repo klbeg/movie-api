@@ -67,15 +67,26 @@ app.get('/', (req, res) => {
 
 //  get users by username
 app.get('/users/:Username', (req, res) => {
-  Users.findOne({ Username: req.params.Username.toLowerCase() })
+  Users.findOne({ Username: req.params.Username.toLowerCase() });
+  (err, user) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    } else if (!user) {
+      res.status(500).send('User not found.');
+    }
+    res.status(200).json(user);
+  };
 
-    .then((user) => {
+  /*
+  .then((user) => {
       res.status(200).json(user);
     })
     .catch((error) => {
       console.error(error);
       res.status(500).send('Error: ' + error);
-    });
+      });
+*/
 });
 
 //  Used to create new users after checking that
