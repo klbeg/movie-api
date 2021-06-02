@@ -76,9 +76,6 @@ app.get('/users/:Username', (req, res) => {
       console.error(error);
       res.status(500).send('Error: ' + error);
     });
-  if (!user) {
-    res.status(500).send('User not found.');
-  }
 });
 
 //  Used to create new users after checking that
@@ -191,9 +188,11 @@ app.put(
         if (err) {
           console.error(err);
           res.status(500).send('Error: ' + err);
-        } else {
-          res.json(updatedUser);
         }
+        if (!updatedUser) {
+          res.status(500).send('User could not be updated.');
+        }
+        res.json(updatedUser);
       }
     );
   }
