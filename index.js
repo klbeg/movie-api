@@ -120,10 +120,10 @@ app.post(
           return res.status(400).send(req.body.Username + ' already exists');
         } else {
           Users.create({
-            Name: req.body.Name.toLowerCase(),
-            Username: req.body.Username.toLowerCase(),
+            Name: req.body.Name,
+            Username: req.body.Username,
             Password: hashedPassword,
-            Email: req.body.Email.toLowerCase(),
+            Email: req.body.Email,
             Birthdate: req.body.Birthdate,
           })
             //  returns new user object
