@@ -65,8 +65,9 @@ app.get('/', (req, res) => {
   res.status(200).send('Welcome to kb-movie-api!');
 });
 
+//  get users by username
 app.get('/users/:Username', (req, res) => {
-  Movies.findOne({ Username: req.body.Username })
+  Users.findOne({ Username: req.body.Username })
     .then((user) => {
       res.status(200).json(user);
     })
