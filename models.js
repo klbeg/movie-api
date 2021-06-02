@@ -3,7 +3,7 @@ const mongoose = require('mongoose'),
 
 //  defines model of movies to match pre-existing data in mongodb
 let movieSchema = mongoose.Schema({
-  Title: { type: String, required: true },
+  Title: { type: String, required: true, lowercase: true },
   Description: { type: String, required: true },
   Genre: {
     Name: String,
