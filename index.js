@@ -71,8 +71,8 @@ app.get('/users/:Username', (req, res) => {
   Users.findOne({ Username: req.params.Username })
     .then((user) => {
       if (!user) {
-        res.status(400).send(req.params.Username.toLowerCase());
-        //res.status(400).send('User not found');
+        //res.status(400).send(req.params.Username.toLowerCase());
+        res.status(400).send('User not found');
       } else {
         res.status(200).json(user);
       }
