@@ -72,7 +72,7 @@ app.get('/users/:Username', (req, res) => {
     .then((user) => {
       if (!user) {
         console.log(req.params.Username.toLowerCase());
-        res.status(400).send('User not found');
+        //res.status(400).send('User not found');
       } else {
         res.status(200).json(user);
       }
