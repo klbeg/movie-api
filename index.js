@@ -65,6 +65,17 @@ app.get('/', (req, res) => {
   res.status(200).send('Welcome to kb-movie-api!');
 });
 
+app.get('/users/:Username', (req, res) => {
+  Movies.findOne({ Username: req.body.Username })
+    .then((user) => {
+      res.status(200).json(user);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send('Error: ' + error);
+    });
+});
+
 //  Used to create new users after checking that
 //  said user doesn't already exist
 //  √ working
@@ -269,7 +280,7 @@ app.get(
   (req, res) => {
     Movies.find()
       .then((movies) => {
-        res.status(201).json(movies);
+        res.status(200).json(movies);
       })
       .catch((err) => {
         console.error(err);
