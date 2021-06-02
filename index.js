@@ -67,7 +67,7 @@ app.get('/', (req, res) => {
 
 //  get users by username
 app.get('/users/:Username', (req, res) => {
-  Users.findOne({ Username: req.params.Username })
+  Users.findOne({ Username: req.params.Username.toLowerCase() })
     .then((user) => {
       res.status(200).json(user);
     })
