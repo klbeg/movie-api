@@ -72,7 +72,8 @@ app.get('/users/:Username', (req, res) => {
     if (err) {
       console.error(err);
       res.status(500).send('Error: ' + err);
-    } else if (!user) {
+    }
+    if (!user) {
       res.status(500).send('User not found.');
     }
     res.status(200).json(user);
