@@ -187,7 +187,7 @@ app.put(
       //  updates only fields entered into body.
       //  fields not present remain unchanged
       { Username: req.params.Username },
-      req.body,
+      req.body.toLowerCase(),
       { new: true },
       (err, updatedUser) => {
         if (err) {
