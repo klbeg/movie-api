@@ -20,8 +20,8 @@ let movieSchema = mongoose.Schema({
 
 //  defines the model for users to match pre-existing data in mongodb
 let userSchema = mongoose.Schema({
-  Name: { type: String, required: false, lowercase: true },
-  Username: { type: String, required: true, lowercase: true },
+  Name: { type: String, required: false },
+  Username: { type: String, required: true },
   Password: { type: String, required: true },
   Email: { type: String, required: true },
   Birthdate: Date,
