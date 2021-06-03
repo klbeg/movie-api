@@ -114,7 +114,7 @@ app.post(
     }
     //  Hashes newly created password and saves the hashed string as password
     let hashedPassword = Users.hashPassword(req.body.Password);
-    Users.findOne({ Username: req.body.Username.toLowerCase() })
+    Users.findOne({ Username: req.body.Username })
       .then((user) => {
         if (user) {
           return res.status(400).send(req.body.Username + ' already exists');
@@ -186,7 +186,7 @@ app.put(
     Users.findOneAndUpdate(
       //  updates only fields entered into body.
       //  fields not present remain unchanged
-      { Username: req.params.Username.toLowerCase() },
+      { Username: req.params.Username },
       req.body,
       { new: true },
       (err, updatedUser) => {
@@ -210,7 +210,7 @@ app.delete(
   '/users/:Username',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    Users.findOneAndRemove({ Username: req.params.Username.toLowerCase() })
+    Users.findOneAndRemove({ Username: req.params.Username })
       .then((user) => {
         if (!user) {
           res.status(400).send(req.params.Username + ' was not found');
@@ -233,7 +233,7 @@ app.put(
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Users.findOneAndUpdate(
-      { Username: req.params.Username.toLowerCase() },
+      { Username: req.params.Username },
       {
         $push: { FavoriteMovies: req.params.MovieID },
       },
@@ -261,7 +261,7 @@ app.delete(
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Users.findOneAndUpdate(
-      { Username: req.params.Username.toLowerCase() },
+      { Username: req.params.Username },
       { $pull: { FavoriteMovies: req.params.MovieID } },
       (err) => {
         if (err) {
@@ -304,7 +304,7 @@ app.get(
   '/movies/:Title',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    Movies.findOne({ Title: req.params.Title.toLowerCase() })
+    Movies.findOne({ Title: req.params.Title })
       .then((movie) => {
         res.json(movie);
       })
@@ -321,7 +321,7 @@ app.get(
   '/genres/:Name',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    Movies.findOne({ 'Genre.Name': req.params.Name.toLowerCase() })
+    Movies.findOne({ 'Genre.Name': req.params.Name })
       .then((genre) => {
         res.json(genre.Genre);
       })
@@ -340,7 +340,7 @@ app.get(
   '/directors/:Name',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    Movies.findOne({ 'Director.Name': req.params.Name.toLowerCase() })
+    Movies.findOne({ 'Director.Name': req.params.Name })
       .then((director) => {
         res.json(director.Director);
       })
