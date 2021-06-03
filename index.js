@@ -293,7 +293,7 @@ app.get(
       })
       .catch((err) => {
         console.error(err);
-        // res.status(500).send('Error: ' + errr);
+        res.status(500).send('Error: ' + errr);
       });
   }
 );
