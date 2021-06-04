@@ -38,8 +38,8 @@ const Users = Models.User;
 //  connects app to database  via mongoose using
 //  environment variable for security
 mongoose.connect(
-  process.env.CONNECTION_URI,
-  //'mongodb+srv://dataAdmin:allTheThings@kb-cluster.brimy.mongodb.net/myFlixDb?retryWrites=true&w=majority',
+  //process.env.CONNECTION_URI,
+  'mongodb://localhost:27017/myFlixDb',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -285,7 +285,7 @@ app.delete(
 //  √ working, validation √
 app.get(
   '/movies',
-  passport.authenticate('jwt', { session: false }),
+  //passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Movies.find()
       .then((movies) => {
@@ -293,7 +293,7 @@ app.get(
       })
       .catch((err) => {
         console.error(err);
-        res.status(500).send('Error: ' + errr);
+        res.status(500).send('Error: ' + err);
       });
   }
 );

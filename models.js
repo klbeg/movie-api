@@ -3,29 +3,29 @@ const mongoose = require('mongoose'),
 
 //  defines model of movies to match pre-existing data in mongodb
 let movieSchema = mongoose.Schema({
-  Title: { type: String, required: true, lowercase: true },
+  Title: { type: String, required: true },
   Description: { type: String, required: true },
   Genre: {
-    Name: { type: String, lowercase: true },
-    Description: { type: String, lowercase: true },
+    Name: { type: String },
+    Description: { type: String },
   },
   Director: {
-    Name: { type: String, lowercase: true },
-    Bio: { type: String, lowercase: true },
+    Name: { type: String },
+    Bio: { type: String },
     Birth: String,
     Death: String,
   },
-  Actors: [{ type: String, lowercase: true }],
+  Actors: [{ type: String }],
   ImagePath: String,
   Featured: Boolean,
 });
 
 //  defines the model for users to match pre-existing data in mongodb
 let userSchema = mongoose.Schema({
-  Name: { type: String, required: false, lowercase: true },
-  Username: { type: String, required: true, lowercase: true },
+  Name: { type: String, required: false },
+  Username: { type: String, required: true },
   Password: { type: String, required: true },
-  Email: { type: String, required: true, lowercase: true },
+  Email: { type: String, required: true },
   Birthdate: Date,
   FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }],
 });
