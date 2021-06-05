@@ -70,6 +70,7 @@
         <td>POST</td>
         <td>None</td>
         <td>
+          a json of the user and a web token <br>
           "user": { <br>
             "FavoriteMovies": [ <br>
                 "60a45ab9e8fd876d8ae55926", <br>
@@ -86,6 +87,29 @@
         }, <br>
         "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJGYXZvcml0ZU1vdmllcyI6WyI2MGE0NWFiOWU4ZmQ4NzZkOGFlNTU5MjYiLCI2MGE0NWFkNGU4ZmQ4NzZkOGFlNTU5MmIiLCI2MGE0NWE5ZWU4ZmQ4NzZkOGFlNTU5MjQiXSwiX2lkIjoiNjBiNDIzOWM0ZTQ2MWUwMDE1YzQxZDc4IiwiTmFtZSI6InRlc3QgcGVyc29uMSIsIlVzZXJuYW1lIjoidGVzdHVzZXIxIiwiUGFzc3dvcmQiOiIkMmIkMTAkS0dJLzdOanFCOW5UWW52V3NuaS44Lk5PaHhLRE5oMkF6UWtSSk9iNVM2dHZsd0hOaUdVMEMiLCJFbWFpbCI6ImVtYWlsQGRvbWFpbi5jb20iLCJCaXJ0aGRhdGUiOiIxOTcyLTAxLTAxVDAwOjAwOjAwLjAwMFoiLCJfX3YiOjAsImlhdCI6MTYyMjg1MzMxMywiZXhwIjoxNjIzNDU4MTEzLCJzdWIiOiJ0ZXN0dXNlcjEifQ.Y9j8sbbq00bjG7u1P-JaR6XpNm0BR8D0Aifb7eXEQks"
     }
+        </td>
+      </tr>
+      <tr>
+        <td>Get user by username</td>
+        <td>/user/:Username</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>
+          a json of the user <br>
+          "user": { <br>
+            "FavoriteMovies": [ <br>
+                "60a45ab9e8fd876d8ae55926", <br>
+                "60a45ad4e8fd876d8ae5592b", <br>
+                "60a45a9ee8fd876d8ae55924" <br>
+            ], <br>
+            "_id": "60b4239c4e461e0015c41d78", <br>
+            "Name": "test person1", <br>
+            "Username": "testuser1", <br>
+            "Password": "$2b$10$KGI/7NjqB9nTYnvWsni.8.NOhxKDNh2AzQkRJOb5S6tvlwHNiGU0C", <br>
+            "Email": "email@domain.com", <br>
+            "Birthdate": "1972-01-01T00:00:00.000Z", <br>
+            "__v": 0 <br>
+            }
         </td>
       </tr>
       <tr>
