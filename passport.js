@@ -14,24 +14,21 @@ passport.use(
       passwordField: 'Password',
     },
     (username, password, callback) => {
-      console.log(username + ' ' + password);
-      Users.findOne(
-        { Username: username.toLocaleLowerCase() },
-        (error, user) => {
-          if (error) {
-            console.log(error);
-            return callback(error);
-          }
-          if (!user.validatePassword(password)) {
-            console.log('incorrect username');
-            return callback(null, false, {
-              message: 'Incorrect username or password',
-            });
-          }
-          console.log('finished');
-          return callback(null, user);
+      username = username.toLocaleLowerCase();
+      Users.findOne({ Username: username }, (error, user) => {
+        if (error) {
+          console.log(error);
+          return callback(error);
         }
-      );
+        if (!user.validatePassword(password)) {
+          console.log('incorrect username');
+          return callback(null, false, {
+            message: 'Incorrect username or password',
+          });
+        }
+        console.log('finished');
+        return callback(null, user);
+      });
     }
   )
 );

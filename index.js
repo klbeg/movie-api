@@ -38,8 +38,8 @@ const Users = Models.User;
 //  connects app to database  via mongoose using
 //  environment variable for security
 mongoose.connect(
-  process.env.CONNECTION_URI,
-  //'mongodb://localhost:27017/myFlixDb',
+  //process.env.CONNECTION_URI,
+  'mongodb://localhost:27017/myFlixDb',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -63,6 +63,39 @@ app.use((err, req, res, next) => {
 //  Default welcome page
 app.get('/', (req, res) => {
   res.status(200).send('Welcome to kb-movie-api!');
+});
+
+//  add movie to list of movies
+app.post('/movies', (req, res) => {
+  Movies.findOne({ Title: req.body.Title }).then((movie) => {
+    if (movie) {
+      return res.status(400).send(req.body.Title + ' already exists.');
+    } else {
+      Movies.create({
+        Title: req.body.Title,
+        Description: req.body.Description,
+        Genre: {
+          Name: req.body.Genre['Name'],
+          Description: req.body.Genre['Description'],
+        },
+        Director: {
+          Name: req.body.Director['Name'],
+          Bio: req.body.Director['Bio'],
+          Birth: req.body.Director['Birth'],
+          Death: req.body.Director['Death'],
+        },
+        Imagepath: req.body.ImagePath,
+        Featured: req.body.Featured,
+      })
+        .then((movie) => {
+          res.status(200).json(movie);
+        })
+        .catch((error) => {
+          console.error(error);
+          res.status(500).send('Error: ' + error);
+        });
+    }
+  });
 });
 
 //  get users by username
