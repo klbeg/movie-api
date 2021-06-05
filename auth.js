@@ -25,7 +25,7 @@ module.exports = (router) => {
           user: user,
         });
       }
-      req.login(user, { session: false }, (error) => {
+      req.login(user.toLowerCase(), { session: false }, (error) => {
         if (error) {
           res.send(error);
         }
