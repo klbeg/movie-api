@@ -66,37 +66,95 @@ app.get('/', (req, res) => {
 });
 
 //  add movie to list of movies
-app.post('/movies', (req, res) => {
-  Movies.findOne({ Title: req.body.Title }).then((movie) => {
-    if (movie) {
-      return res.status(400).send(req.body.Title + ' already exists.');
-    } else {
-      Movies.create({
-        Title: req.body.Title,
-        Description: req.body.Description,
-        Genre: {
-          Name: req.body.Genre['Name'],
-          Description: req.body.Genre['Description'],
-        },
-        Director: {
-          Name: req.body.Director['Name'],
-          Bio: req.body.Director['Bio'],
-          Birth: req.body.Director['Birth'],
-          Death: req.body.Director['Death'],
-        },
-        Imagepath: req.body.ImagePath,
-        Featured: req.body.Featured,
-      })
-        .then((movie) => {
-          res.status(200).json(movie);
-        })
-        .catch((error) => {
-          console.error(error);
-          res.status(500).send('Error: ' + error);
-        });
+app.post(
+  '/movies',
+  //passport.authenticate('jwt', { session: false }),
+  check('Title', 'Title contains non alphanumeric characters - not allowed')
+    .matches(/^[a-z0-9 ]+$/i)
+    .not()
+    .isEmpty(),
+  check(
+    'Description',
+    'Description contains non alphanumeric characters - not allowed'
+  )
+    .matches(/^[a-z0-9 ]+$/i)
+    .not()
+    .isEmpty(),
+  check(
+    'Genre.Name',
+    'Genre Name contains non alphanumeric characters - not allowed.'
+  )
+    .matches(/^[a-z0-9 ]+$/i)
+    .not()
+    .isEmpty(),
+  check(
+    'Genre.Description',
+    'Genre Description contains non alphanumeric characters - not allowed.'
+  ).matches(/^[a-z0-9 ]+$/i),
+  check(
+    'Director.Name',
+    'Director Name contains non alphanumeric characters - not allowed.'
+  )
+    .matches(/^[a-z0-9 ]+$/i)
+    .not()
+    .isEmpty(),
+  check(
+    'Director.Bio',
+    'Director Bio contains non alphanumeric characters - not allowed.'
+  ).matches(/^[a-z0-9 ]+$/i),
+  check(
+    'Director.Birth',
+    'Director Birth contains non numeric characters - not allowed.'
+  ).isDate(),
+  check(
+    'Director.Death',
+    'Director Death contains non numeric characters - not allowed.'
+  ).isDate(),
+  check(
+    'ImagePath',
+    'ImagePath is not a valid URL.  Please check your link and try again.'
+  ).isURL(),
+  check('Featured', 'Featured can only be true or false.').isBoolean(),
+  (req, res, next) => {
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
     }
-  });
-});
+    next();
+  },
+  (req, res) => {
+    Movies.findOne({ Title: req.body.Title }).then((movie) => {
+      if (movie) {
+        return res.status(400).send(req.body.Title + ' already exists.');
+      } else {
+        Movies.create({
+          Title: req.body.Title.toLowerCase(),
+          Description: req.body.Description.toLowerCase(),
+          Genre: {
+            Name: req.body.Genre['Name'].toLowerCase(),
+            Description: req.body.Genre['Description'].toLowerCase(),
+          },
+          Director: {
+            Name: req.body.Director['Name'].toLowerCase(),
+            Bio: req.body.Director['Bio'].toLowerCase(),
+            Birth: req.body.Director['Birth'],
+            Death: req.body.Director['Death'],
+          },
+          ImagePath: req.body.ImagePath,
+          Featured: req.body.Featured,
+        })
+          .then((movie) => {
+            res.status(200).json(movie);
+          })
+          .catch((error) => {
+            console.error(error);
+            res.status(500).send('Error: ' + error);
+          });
+      }
+    });
+  }
+);
 
 //  get users by username
 //  'user not found' working
