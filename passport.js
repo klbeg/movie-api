@@ -15,20 +15,23 @@ passport.use(
     },
     (username, password, callback) => {
       console.log(username + ' ' + password);
-      Users.findOne({ Username: username }, (error, user) => {
-        if (error) {
-          console.log(error);
-          return callback(error);
+      Users.findOne(
+        { Username: username.toLocaleLowerCase() },
+        (error, user) => {
+          if (error) {
+            console.log(error);
+            return callback(error);
+          }
+          if (!user.validatePassword(password)) {
+            console.log('incorrect username');
+            return callback(null, false, {
+              message: 'Incorrect username or password',
+            });
+          }
+          console.log('finished');
+          return callback(null, user);
         }
-        if (!user.validatePassword(password)) {
-          console.log('incorrect username');
-          return callback(null, false, {
-            message: 'Incorrect username or password',
-          });
-        }
-        console.log('finished');
-        return callback(null, user);
-      });
+      );
     }
   )
 );
