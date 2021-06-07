@@ -68,7 +68,7 @@ app.get('/', (req, res) => {
 //  add movie to list of movies
 app.post(
   '/movies',
-  //passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
   check('Title', 'Title contains non alphanumeric characters - not allowed')
     .matches(/^[a-z0-9 ]+$/i)
     .not()
@@ -375,7 +375,7 @@ app.delete(
 //  √ working, validation √
 app.get(
   '/movies',
-  //passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Movies.find()
       .then((movies) => {
