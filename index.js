@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 let auth = require('./auth')(app);
 
 // controls which sites can make requests
-let allowedOrigins = ['http://locahost:8080', 'http://testsite.com'];
+//let allowedOrigins = ['http://locahost:8080', 'http://testsite.com'];
 app.use(cors());
 
 //  imports mongoose models to assigned variables
