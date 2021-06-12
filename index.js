@@ -366,7 +366,7 @@ app.get(
   (req, res) => {
     Movies.find()
       .then((movies) => {
-        res.status(200).json(movies);
+        res.status(201).json(movies);
       })
       .catch((err) => {
         console.error(err);
@@ -379,7 +379,7 @@ app.get(
 //  √ working, validation √
 app.get(
   '/movies/:Title',
-  passport.authenticate('jwt', { session: false }),
+  //passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Movies.findOne({ Title: req.params.Title })
       .then((movie) => {
