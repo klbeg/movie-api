@@ -16,20 +16,7 @@ let auth = require('./auth')(app);
 
 // controls which sites can make requests
 let allowedOrigins = ['http://locahost:8080', 'http://testsite.com'];
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOfI(origin) === -1) {
-        let message =
-          "The CORS policy for this application doesn't allow access from the origin " +
-          origin;
-        return callback(new Error(message), false);
-      }
-      return callback(null, true);
-    },
-  })
-);
+app.use(cors());
 
 //  imports mongoose models to assigned variables
 const Movies = Models.Movie;
@@ -375,7 +362,7 @@ app.delete(
 //  √ working, validation √
 app.get(
   '/movies',
-  passport.authenticate('jwt', { session: false }),
+  //passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Movies.find()
       .then((movies) => {
