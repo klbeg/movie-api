@@ -15,8 +15,21 @@ app.use(bodyParser.json());
 let auth = require('./auth')(app);
 
 // controls which sites can make requests
-//let allowedOrigins = ['http://locahost:8080', 'http://testsite.com'];
-app.use(cors());
+let allowedOrigins = ['http://localhost:1234', 'http://testsite.com'];
+-app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        let message =
+          "The CORS policy for this application doesn't allow access from the origin " +
+          origin;
+        return callback(new Error(message), false);
+      }
+      return callback(null, true);
+    },
+  })
+);
 
 //  imports mongoose models to assigned variables
 const Movies = Models.Movie;
@@ -366,7 +379,7 @@ app.get(
   (req, res) => {
     Movies.find()
       .then((movies) => {
-        res.status(201).json(movies);
+        res.status(200).json(movies);
       })
       .catch((err) => {
         console.error(err);
@@ -379,7 +392,7 @@ app.get(
 //  √ working, validation √
 app.get(
   '/movies/:Title',
-  //passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Movies.findOne({ Title: req.params.Title })
       .then((movie) => {
