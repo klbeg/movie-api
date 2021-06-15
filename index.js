@@ -7,16 +7,16 @@ const express = require('express'),
   passport = require('passport'),
   cors = require('cors');
 
+// controls which sites can make requests
+let allowedOrigins = ['http://localhost:1234', 'http://testsite.com'];
+app.use(cors());
+
 const { check, validationResult } = require('express-validator');
 require('./passport');
 
 const app = express();
 app.use(bodyParser.json());
 let auth = require('./auth')(app);
-
-// controls which sites can make requests
-let allowedOrigins = ['http://localhost:1234', 'http://testsite.com'];
-app.use(cors());
 
 //  imports mongoose models to assigned variables
 const Movies = Models.Movie;
