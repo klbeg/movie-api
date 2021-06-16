@@ -12,7 +12,7 @@ require('./passport');
 
 // controls which sites can make requests
 let allowedOrigins = ['http://localhost:1234', 'http://testsite.com'];
-app.use(cors());
+app.use(cors(allowedOrigins));
 
 const app = express();
 app.use(bodyParser.json());
