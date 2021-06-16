@@ -31,8 +31,8 @@ const Users = Models.User;
 //  connects app to database  via mongoose using
 //  environment variable for security
 mongoose.connect(
-  process.env.CONNECTION_URI,
-  //'mongodb://localhost:27017/myFlixDb',
+  //  process.env.CONNECTION_URI,
+  'mongodb://localhost:27017/myFlixDb',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
