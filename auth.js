@@ -1,8 +1,15 @@
 const jwt = require('jsonwebtoken'),
-  passport = require('passport');
+  passport = require('passport'),
+  cors = require('cors');
 
 const jwtSecret = 'your_jwt_secret';
 require('./passport');
+
+app.use(
+  cors({
+    origin: '*',
+  })
+);
 
 //  generated user token
 let generateJWTToken = (user) => {

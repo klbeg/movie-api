@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 let auth = require('./auth')(app);
 
 //  controls which sites can make requests
-let allowedOrigins = ['http://localhost:1234', 'http://testsite.com'];
+//  let allowedOrigins = ['http://localhost:1234', 'http://testsite.com'];
 //  app.use(cors(allowedOrigins));
 
 app.use(
