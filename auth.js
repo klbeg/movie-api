@@ -1,7 +1,9 @@
 const jwt = require('jsonwebtoken'),
   passport = require('passport'),
-  cors = require('cors');
+  cors = require('cors'),
+  express = require('express');
 
+const app = express();
 const jwtSecret = 'your_jwt_secret';
 require('./passport');
 
