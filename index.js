@@ -7,10 +7,11 @@ const express = require('express'),
   passport = require('passport'),
   cors = require('cors');
 
+const app = express();
+
 const { check, validationResult } = require('express-validator');
 require('./passport');
 
-const app = express();
 app.use(bodyParser.json());
 let auth = require('./auth')(app);
 
