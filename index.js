@@ -18,6 +18,7 @@ app.use(
     origin: '*',
   })
 );
+
 let auth = require('./auth')(app);
 
 //  controls which sites can make requests
