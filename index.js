@@ -152,7 +152,7 @@ app.post(
 
 //  get users by username
 //  'user not found' working
-app.get('/users/:Username', (req, res) => {
+app.get('/user/:Username', (req, res) => {
   Users.findOne({ Username: req.params.Username })
     .then((user) => {
       if (!user) {
