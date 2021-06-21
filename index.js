@@ -167,6 +167,12 @@ app.get('/users/:Username', (req, res) => {
     });
 });
 
+app.get('/users', (req, res) => {
+  Users.find().then((users) => {
+    res.status(200).json(users);
+  });
+});
+
 //  Used to create new users after checking that
 //  said user doesn't already exist
 //  √ working
