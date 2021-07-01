@@ -274,8 +274,11 @@ app.put(
     next();
   },
 
-  //  improve error handling in this function.
-  //  getting can't set headers after headers are sent.
+  //  seemingly fixed error: can't set header after headers are sent (line 296)
+  //  seemingly fixed depreciation error inregards to findOneAndUpdate
+  //    see line 40 for fix.
+  //  now request seemingly works and doesn't break app, but
+  //  getting 'User could not be updated.' error.
   (req, res) => {
     Users.findOneAndUpdate(
       //  updates only fields entered into body.
@@ -290,6 +293,7 @@ app.put(
         }
         if (!updatedUser) {
           res.status(500).send('User could not be updated.');
+          //  'else' statement added to prevent 'headers can't be set' error
         } else {
           res.json(updatedUser);
         }
