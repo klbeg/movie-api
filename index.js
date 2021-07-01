@@ -290,8 +290,9 @@ app.put(
         }
         if (!updatedUser) {
           return res.status(500).send('User could not be updated.');
+        } else {
+          res.json(updatedUser);
         }
-        res.json(updatedUser);
       }
     );
   }
