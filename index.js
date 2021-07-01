@@ -286,10 +286,10 @@ app.put(
       (err, updatedUser) => {
         if (err) {
           console.error(err);
-          return res.status(500).send('Error: ' + err);
+          res.status(500).send('Error: ' + err);
         }
         if (!updatedUser) {
-          return res.status(500).send('User could not be updated.');
+          res.status(500).send('User could not be updated.');
         } else {
           res.json(updatedUser);
         }
