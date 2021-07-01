@@ -273,6 +273,9 @@ app.put(
     }
     next();
   },
+
+  //  improve error handling in this function.
+  //  getting can't set headers after headers are sent.
   (req, res) => {
     Users.findOneAndUpdate(
       //  updates only fields entered into body.
@@ -283,10 +286,10 @@ app.put(
       (err, updatedUser) => {
         if (err) {
           console.error(err);
-          res.status(500).send('Error: ' + err);
+          return res.status(500).send('Error: ' + err);
         }
         if (!updatedUser) {
-          res.status(500).send('User could not be updated.');
+          return res.status(500).send('User could not be updated.');
         }
         res.json(updatedUser);
       }
