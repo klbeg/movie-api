@@ -32,8 +32,8 @@ const Users = Models.User;
 //  connects app to database  via mongoose using
 //  environment variable for security
 mongoose.connect(
-  process.env.CONNECTION_URI,
-  //  'mongodb://localhost:27017/myFlixDb',
+  // process.env.CONNECTION_URI,
+  'mongodb+srv://dataAdmin:pass123@kb-cluster.brimy.mongodb.net/myFlixDb?retryWrites=true&w=majority',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -281,18 +281,18 @@ app.put(
       //  updates only fields entered into body.
       //  fields not present remain unchanged
       { Username: req.params.Username },
-      req.body,
+      { $set: req.body },
       { new: true },
       (err, updatedUser) => {
         if (err) {
           console.error(err);
           res.status(500).send('Error: ' + err);
         }
-        if (!updatedUser) {
-          res.status(500).send('User could not be updated.');
-          //  'else' statement added to prevent 'headers can't be set' error
+        // if (!updatedUser) {
+        //   res.status(500).send('User could not be updated.');
+        else {
+          res.json(updatedUser);
         }
-        res.json(updatedUser);
       }
     );
   }
