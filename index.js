@@ -291,9 +291,8 @@ app.put(
         if (!updatedUser) {
           res.status(500).send('User could not be updated.');
           //  'else' statement added to prevent 'headers can't be set' error
-        } else {
-          res.json(updatedUser);
         }
+        res.json(updatedUser);
       }
     );
   }
