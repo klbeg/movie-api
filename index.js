@@ -279,27 +279,25 @@ app.put(
   //    see line 40 for fix.
   //  now request seemingly works and doesn't break app, but
   //  getting 'User could not be updated.' error.
-  (req, res) => {
-    Users.findOneAndUpdate(
-      //  updates only fields entered into body.
-      //  fields not present remain unchanged
-      { Username: req.params.Username },
-      req.body,
-      { new: true },
-      (err, updatedUser) => {
-        if (err) {
-          console.error(err);
-          res.status(500).send('Error: ' + err);
-        }
-        if (!updatedUser) {
-          res.status(500).send('User could not be updated.');
-          //  'else' statement added to prevent 'headers can't be set' error
-        } else {
-          res.json(updatedUser);
-        }
+  //  (req, res) => {
+  Users.findOneAndUpdate(
+    //  updates only fields entered into body.
+    //  fields not present remain unchanged
+    { Username: req.params.Username },
+    req.body,
+    { new: true },
+    (err, updatedUser) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
       }
-    );
-  }
+      if (!updatedUser) {
+        res.status(500).send('User could not be updated.');
+        //  'else' statement added to prevent 'headers can't be set' error
+      }
+      res.json(updatedUser);
+    }
+  )
 );
 
 //  Delete a user by username
