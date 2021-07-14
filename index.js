@@ -193,7 +193,7 @@ app.post(
       'Username',
       'Username contains non alphanumeric characters - not allowed.'
     ).isAlphanumeric(),
-    check('Password', 'Password is required').isAlphanumeric().not().isEmpty(),
+    //  check('Password', 'Password is required').isAlphanumeric().not().isEmpty(),
     check('Email', 'Email does not appear to be valid').isEmail(),
     check('Birthdate', 'Birthdate is not a date.').isDate(),
   ],
@@ -257,11 +257,6 @@ app.put(
     )
       .optional()
       .isAlphanumeric(),
-    check('Password', 'Password is required')
-      .optional()
-      .isAlphanumeric()
-      .not()
-      .isEmpty(),
     check('Email', 'Email does not appear to be valid').optional().isEmail(),
     check('Birthdate', 'Birthdate is not a date.').optional().isDate(),
   ],
@@ -272,17 +267,58 @@ app.put(
       return res.status(422).json({ errors: errors.array() });
     }
 
-    //  seemingly fixed error: can't set header after headers are sent (line 296)
-    //  seemingly fixed depreciation error inregards to findOneAndUpdate
-    //    see line 40 for fix.
-    //  now request seemingly works and doesn't break app, but
-    //  getting 'User could not be updated.' error.
+    //  password needs to be hashed before it's saved to DB
+    console.log('console log working in function');
     Users.findOneAndUpdate(
       //  updates only fields entered into body.
       //  fields not present remain unchanged
       { Username: req.params.Username },
       { $set: req.body },
       { new: true },
+      (err, updatedUser) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send('Error: ' + err);
+        }
+        // if (!updatedUser) {
+        //   res.status(500).send('User could not be updated.');
+        else {
+          res.json(updatedUser);
+        }
+      }
+    );
+  }
+);
+
+//  update password
+//  √ working, validation √
+app.put(
+  '/users/:Username/changePass',
+  //  Verifies authentication token
+
+  //  passport.authenticate('jwt', { session: false }),
+
+  // validates any inputed fields while allowing unwanted fields to be left blank
+  [
+    check('Password', 'Password is required')
+      .optional()
+      .isAlphanumeric()
+      .not()
+      .isEmpty(),
+  ],
+  (req, res, next) => {
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+    //  password needs to be hashed before it's saved to DB
+    let hashedPassword = Users.hashPassword(req.body.Password);
+    Users.findOneAndUpdate(
+      //  updates only fields entered into body.
+      //  fields not present remain unchanged
+      { Username: req.params.Username },
+      { Password: hashedPassword },
       (err, updatedUser) => {
         if (err) {
           console.error(err);
