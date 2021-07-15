@@ -32,8 +32,8 @@ const Users = Models.User;
 //  connects app to database  via mongoose using
 //  environment variable for security
 mongoose.connect(
-  // process.env.CONNECTION_URI,
-  'mongodb+srv://dataAdmin:pass123@kb-cluster.brimy.mongodb.net/myFlixDb?retryWrites=true&w=majority',
+  process.env.CONNECTION_URI,
+  // 'mongodb+srv://dataAdmin:pass123@kb-cluster.brimy.mongodb.net/myFlixDb?retryWrites=true&w=majority',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -267,8 +267,6 @@ app.put(
       return res.status(422).json({ errors: errors.array() });
     }
 
-    //  password needs to be hashed before it's saved to DB
-    console.log('console log working in function');
     Users.findOneAndUpdate(
       //  updates only fields entered into body.
       //  fields not present remain unchanged
@@ -399,13 +397,11 @@ app.delete(
           console.error(err);
           res.status(500).send('Error: ' + err);
         } else {
-          res
-            .status(200)
-            .send(
-              'MovieID ' +
-                req.params.MovieID +
-                ' has been removed from favorites.'
-            );
+          Users.find({
+            Username: req.params.Username,
+          }).then((user) => {
+            res.status(200).json(user[0].FavoriteMovies);
+          });
         }
       }
     );
