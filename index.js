@@ -21,10 +21,6 @@ app.use(
 
 let auth = require('./auth')(app);
 
-//  controls which sites can make requests
-//  let allowedOrigins = ['http://localhost:1234', 'http://testsite.com'];
-//  app.use(cors(allowedOrigins));
-
 //  imports mongoose models to assigned variables
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -33,7 +29,7 @@ const Users = Models.User;
 //  environment variable for security
 mongoose.connect(
   process.env.CONNECTION_URI,
-  // 'mongodb+srv://dataAdmin:pass123@kb-cluster.brimy.mongodb.net/myFlixDb?retryWrites=true&w=majority',
+  //'mongodb+srv://dataAdmin:pass123@kb-cluster.brimy.mongodb.net/myFlixDb?retryWrites=true&w=majority',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
