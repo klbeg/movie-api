@@ -367,11 +367,16 @@ app.put(
           console.error(err);
           res.status(500).send('Error: ' + err);
         } else {
-          res
-            .status(200)
-            .send(
-              'MovieID ' + req.params.MovieID + ' has been added to favorites.'
-            );
+          Users.find({
+            Username: req.params.Username,
+          }).then((user) => {
+            res.status(200).json(user[0].FavoriteMovies);
+          });
+          // res
+          //   .status(200)
+          //   .send(
+          //     'MovieID ' + req.params.MovieID + ' has been added to favorites.'
+          //   );
         }
       }
     );
