@@ -28,8 +28,8 @@ const Users = Models.User;
 //  connects app to database  via mongoose using
 //  environment variable for security
 mongoose.connect(
-  process.env.CONNECTION_URI,
-  //'mongodb+srv://dataAdmin:pass123@kb-cluster.brimy.mongodb.net/myFlixDb?retryWrites=true&w=majority',
+  //process.env.CONNECTION_URI,
+  'mongodb+srv://dataAdmin:pass123@kb-cluster.brimy.mongodb.net/myFlixDb?retryWrites=true&w=majority',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -317,10 +317,7 @@ app.put(
         if (err) {
           console.error(err);
           res.status(500).send('Error: ' + err);
-        }
-        // if (!updatedUser) {
-        //   res.status(500).send('User could not be updated.');
-        else {
+        } else {
           res.json(updatedUser);
         }
       }
@@ -370,7 +367,22 @@ app.put(
           Users.find({
             Username: req.params.Username,
           }).then((user) => {
-            res.status(200).json(user[0].FavoriteMovies);
+            const userFavs = user[0].FavoriteMovies;
+            let favMoviesObjArr = [];
+            Movies.find()
+              .then((movies) => {
+                userFavs.map((favID) => {
+                  movies.map((movie) => {
+                    if (movie._id.toString() == favID.toString()) {
+                      console.log(movie);
+                      favMoviesObjArr.push(movie);
+                    }
+                  });
+                });
+              })
+              .then(() => {
+                res.status(200).json(favMoviesObjArr);
+              });
           });
         }
       }
@@ -396,7 +408,22 @@ app.delete(
           Users.find({
             Username: req.params.Username,
           }).then((user) => {
-            res.status(200).json(user[0].FavoriteMovies);
+            const userFavs = user[0].FavoriteMovies;
+            let favMoviesObjArr = [];
+            Movies.find()
+              .then((movies) => {
+                userFavs.map((favID) => {
+                  movies.map((movie) => {
+                    if (movie._id.toString() == favID.toString()) {
+                      console.log(movie);
+                      favMoviesObjArr.push(movie);
+                    }
+                  });
+                });
+              })
+              .then(() => {
+                res.status(200).json(favMoviesObjArr);
+              });
           });
         }
       }
