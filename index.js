@@ -374,7 +374,6 @@ app.put(
                 userFavs.map((favID) => {
                   movies.map((movie) => {
                     if (movie._id.toString() == favID.toString()) {
-                      console.log(movie);
                       favMoviesObjArr.push(movie);
                     }
                   });
@@ -415,7 +414,6 @@ app.delete(
                 userFavs.map((favID) => {
                   movies.map((movie) => {
                     if (movie._id.toString() == favID.toString()) {
-                      console.log(movie);
                       favMoviesObjArr.push(movie);
                     }
                   });
