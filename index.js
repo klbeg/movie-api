@@ -10,6 +10,7 @@ const express = require('express'),
 const app = express();
 
 const { check, validationResult } = require('express-validator');
+const path = require('path/posix');
 require('./passport');
 
 app.use(bodyParser.json());
@@ -21,8 +22,45 @@ app.use(
 
 let auth = require('./auth')(app);
 
+class Movie {
+  constructor() {
+    (this.Title = title),
+      (this.Description = description),
+      (this.Genre = {
+        Name: genreName,
+        Description: description,
+      }),
+      (this.Director = {
+        Name: directorName,
+        Bio: bio,
+        Birth: birth,
+        Death: death,
+      }),
+      (this.ImagePath = imgPath),
+      (this.Featured = featured);
+  }
+}
+
+class User {
+  constructor() {
+    (this.Name = nameActual),
+      (this.Username = username),
+      (this.Password = password),
+      (this.Email = email),
+      (this.birthdate = birthdate);
+  }
+}
+
 //  imports mongoose models to assigned variables
+/**
+ * array of movie objects
+ * @type {Movie[]}
+ */
 const Movies = Models.Movie;
+/**
+ * array of user objects
+ * @type {User[]}
+ */
 const Users = Models.User;
 
 //  connects app to database  via mongoose using
@@ -57,6 +95,14 @@ app.get('/', (req, res) => {
 });
 
 //  add movie to list of movies
+// @ts-check
+/**
+ * Add a movie to list of movies.
+ * @method POST
+ * @param {Movie} - movie to add to list of movies
+ * @returns {Movie} - returns movie object
+ */
+
 app.post(
   '/movies',
   passport.authenticate('jwt', { session: false }),
@@ -106,6 +152,7 @@ app.post(
     'ImagePath is not a valid URL.  Please check your link and try again.'
   ).isURL(),
   check('Featured', 'Featured can only be true or false.').isBoolean(),
+
   (req, res, next) => {
     let errors = validationResult(req);
 
@@ -147,8 +194,12 @@ app.post(
   }
 );
 
-//  get users by username
-//  'user not found' working
+/**
+ * Get's user by username
+ * @method GET
+ * @param {string} username - username to find in db
+ * @returns {User} - returns user object if found, else "User not found"
+ */
 app.get('/users/:Username', (req, res) => {
   Users.findOne({ Username: req.params.Username })
     .then((user) => {
@@ -164,17 +215,26 @@ app.get('/users/:Username', (req, res) => {
     });
 });
 
+//  only used for admin purposes
+/**
+ * Gets a list of all users
+ * @method GET
+ * @returns {User[]}
+ */
 app.get('/users', (req, res) => {
   Users.find().then((users) => {
     res.status(200).json(users);
   });
 });
 
-//  Used to create new users after checking that
-//  said user doesn't already exist
-//  √ working
+/**
+ * Create a new user. If user exists, throws error
+ * @method POST
+ * @param {User}
+ * @returns {User}
+ */
+
 app.post(
-  //  validates each field to prevent cross scripting
   '/users',
   [
     check(
@@ -230,8 +290,12 @@ app.post(
   }
 );
 
-//  update user info
-//  √ working, validation √
+/**
+ * Update and change user info.  All fields optional
+ * @method PUT
+ * @param {object} - only contains fields user wishes to change
+ * @returns {User} - updated user info
+ */
 app.put(
   '/users/:Username',
   //  Verifies authentication token
@@ -284,13 +348,17 @@ app.put(
   }
 );
 
-//  update password
-//  √ working, validation √
+/**
+ * Update user password
+ * @method PUT
+ * @param {string} Username - find user by username
+ * @param {string} Password - user password to be hashed and saved
+ * @returns {User} - returns updated user info
+ */
 app.put(
   '/users/:Username/changePass',
   //  Verifies authentication token
-
-  //  passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
 
   // validates any inputed fields while allowing unwanted fields to be left blank
   [
@@ -325,9 +393,12 @@ app.put(
   }
 );
 
-//  Delete a user by username
-//  If a username is found, returns confirmation
-//  √ working, validation  √
+/**
+ * Deletes profile by username
+ * @method DELETE
+ * @param {string} username - username to search for
+ * @returns {string} - "Username" was deleted.
+ */
 app.delete(
   '/users/:Username',
   passport.authenticate('jwt', { session: false }),
@@ -347,9 +418,13 @@ app.delete(
   }
 );
 
-//  Add a movie to user's list of favorites by movie's objectID
-//  upon success, returns confirmation
-//  √ working, validation √
+/**
+ * Add a movie to user's favorites
+ * @method PUT
+ * @param {string} username - username to add favorite to
+ * @param {string} movieID - movieID to add
+ * @returns {Movie[]} - array of favorite movie objects
+ */
 app.put(
   '/users/:Username/movies/:MovieID',
   passport.authenticate('jwt', { session: false }),
@@ -389,9 +464,13 @@ app.put(
   }
 );
 
-//  removes movie from user's favorites list
-//  upon success, returns confirmation
-//  √ working, validation √
+/**
+ * Delete's a movie from user's favorites
+ * @method DELETE
+ * @param {string} username - user to delete favorite
+ * @param {string} movieID - movie to be deleted
+ * @return {Movie[]} - returns array of user's favorite movies
+ */
 app.delete(
   '/users/:Username/movies/:MovieID',
   passport.authenticate('jwt', { session: false }),
@@ -429,8 +508,11 @@ app.delete(
   }
 );
 
-//  gets a list of all movies to be returned as json
-//  √ working, validation √
+/**
+ * Get list of all movies
+ * @method GET
+ * @returns {Movie[]} - returns array of all movies
+ */
 app.get(
   '/movies',
   passport.authenticate('jwt', { session: false }),
@@ -446,8 +528,12 @@ app.get(
   }
 );
 
-//  gets a movie by title and returns a json
-//  √ working, validation √
+/**
+ * Get a movie by title
+ * @method GET
+ * @param {string} title - title of movie to return
+ * @return {Movie} - returns movie object
+ */
 app.get(
   '/movies/:Title',
   passport.authenticate('jwt', { session: false }),
@@ -463,8 +549,12 @@ app.get(
   }
 );
 
-//  get's a genre by name and returns a json
-//  √ working, validation √
+/**
+ * Get genre info by genre name
+ * @method GET
+ * @param {string} name - name of genre
+ * @returns {object} - returns genre name and description
+ */
 app.get(
   '/genres/:Name',
   passport.authenticate('jwt', { session: false }),
@@ -482,8 +572,12 @@ app.get(
   }
 );
 
-//  get's director by name and returns a json
-//  √ working, validation √
+/**
+ * Get a directors info by director name
+ * @method GET
+ * @param {string} name - name of director to find
+ * @returns {object} - returns director name, birth, death, and bio
+ */
 app.get(
   '/directors/:Name',
   passport.authenticate('jwt', { session: false }),
